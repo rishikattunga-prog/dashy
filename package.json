@@ -1,0 +1,7 @@
+{
+  "name": "dashy",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Personal morning dashboard — static page + serverless functions on Vercel."
+}
