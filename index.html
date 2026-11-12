@@ -33,6 +33,7 @@
   }
 
   * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
   html, body { height: 100%; }
   body { background: var(--bg); color: var(--fg); font-family: var(--body); line-height: 1.5; -webkit-font-smoothing: antialiased; }
   .gut { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
@@ -77,7 +78,7 @@
   .enter-btn:hover { filter: brightness(1.06); } .enter-btn:active { transform: scale(.97); }
 
   /* ---------- dashboard ---------- */
-  #app { max-width: 880px; margin: 0 auto; padding-block: 24px 56px; }
+  #app { max-width: 1760px; margin: 0 auto; padding-block: 24px 56px; }
   #app[hidden] { display: none; }
   .head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 18px; }
   .eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin: 0; }
@@ -92,7 +93,7 @@
   .snap { margin-bottom: 14px; }
   .snap-head { display: flex; align-items: center; gap: 7px; margin-bottom: 10px; }
   .snap-head .label { margin: 0; color: var(--accent); }
-  .snap-body { font-size: 15.5px; line-height: 1.6; margin: 0; } .snap-body b { font-weight: 600; }
+  .snap-body { font-size: 15.5px; line-height: 1.6; margin: 0; max-width: 72ch; } .snap-body b { font-weight: 600; }
   .snap-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
   .btn { font-size: 12.5px; font-weight: 600; border-radius: 9px; padding: 7px 14px; cursor: pointer; border: 1px solid var(--border); background: transparent; color: var(--fg); }
   .btn:hover { background: var(--card-alt); }
@@ -106,9 +107,10 @@
   .sd-dots { display: flex; justify-content: center; gap: 2px; margin-top: 4px; min-height: 5px; }
   .sd-dots i { width: 4px; height: 4px; border-radius: 50%; display: inline-block; }
 
-  .grid { display: grid; grid-template-columns: 1.55fr 1fr; gap: 16px; align-items: start; }
-  .col { display: flex; flex-direction: column; gap: 14px; }
-  @media (max-width: 680px) { .grid { grid-template-columns: 1fr; } }
+  .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; align-items: start; }
+  .col { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+  @media (max-width: 980px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 620px) { .grid { grid-template-columns: 1fr; } }
 
   .tl { position: relative; padding-left: 60px; }
   .tl-line { position: absolute; left: 52px; top: 5px; bottom: 5px; width: 1px; background: var(--border); }
@@ -140,14 +142,34 @@
   .del { flex-shrink: 0; background: none; border: none; color: var(--faint); cursor: pointer; opacity: 0; padding: 2px; } .task:hover .del { opacity: 1; } .del svg { width: 15px; height: 15px; }
   .play { flex-shrink: 0; background: none; border: none; color: var(--faint); cursor: pointer; opacity: 0; padding: 2px; } .task:hover .play { opacity: 1; } .play svg { width: 15px; height: 15px; } .play.on { opacity: 1; color: var(--accent); }
   .task.active { } .focuspill { display: inline-block; font-size: 10px; font-weight: 700; color: var(--accent); background: var(--accent-bg); border-radius: 20px; padding: 1px 7px; margin-left: 6px; vertical-align: 1px; }
-  .focusbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; border-color: var(--accent); margin-bottom: 14px; }
-  .fb-main { display: flex; align-items: center; gap: 11px; min-width: 0; }
-  .fb-pulse { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); flex-shrink: 0; animation: pulse 1.7s infinite; }
-  @keyframes pulse { 0% { box-shadow: 0 0 0 0 var(--accent-bg); } 70% { box-shadow: 0 0 0 9px transparent; } 100% { box-shadow: 0 0 0 0 transparent; } }
-  .fb-label { font-size: 10px; font-weight: 700; letter-spacing: 0.11em; text-transform: uppercase; color: var(--accent); margin: 0; }
-  .fb-title { font-size: 14px; font-weight: 600; margin: 1px 0 0; }
-  .fb-right { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-  .fb-time { font-family: var(--display); font-weight: 700; font-size: 17px; font-variant-numeric: tabular-nums; }
+  .fc-editor { display: flex; flex-direction: column; gap: 13px; margin-bottom: 14px; }
+  .fc-presets { display: flex; gap: 6px; flex-wrap: wrap; }
+  .preset { font-size: 12px; border: 1px solid var(--border); background: transparent; color: var(--sub); border-radius: 20px; padding: 4px 13px; cursor: pointer; }
+  .preset.on { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+  .fc-steppers { display: flex; gap: 22px; flex-wrap: wrap; }
+  .stepper { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--sub); }
+  .stepper b { font-family: var(--display); font-weight: 700; font-size: 16px; color: var(--fg); min-width: 26px; text-align: center; font-variant-numeric: tabular-nums; }
+  .stepper button { width: 28px; height: 28px; border-radius: 8px; border: 1px solid var(--border); background: var(--card); color: var(--fg); font-size: 16px; line-height: 1; cursor: pointer; }
+  /* full-screen focus mode */
+  .focusmode { position: fixed; inset: 0; z-index: 60; background: var(--bg); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+  .focusmode[hidden] { display: none; }
+  .fm-aurora { position: absolute; inset: -30%; z-index: 0; filter: blur(80px); opacity: .4;
+    background: radial-gradient(38% 46% at 25% 30%, var(--a1), transparent 70%), radial-gradient(42% 50% at 75% 35%, var(--a2), transparent 70%), radial-gradient(50% 55% at 50% 85%, var(--a3), transparent 72%);
+    animation: drift 24s ease-in-out infinite; }
+  .fm-inner { position: relative; z-index: 1; text-align: center; padding: 0 20px; max-width: 440px; margin: 0 auto; }
+  .fm-ring { position: relative; width: min(68vw, 300px); aspect-ratio: 1; margin: 0 auto 26px; }
+  .fm-ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+  .fm-track { fill: none; stroke: var(--border); stroke-width: 2.5; }
+  .fm-prog { fill: none; stroke: var(--accent); stroke-width: 2.5; stroke-linecap: round; transition: stroke-dashoffset 1s linear; }
+  .fm-ring-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .fm-phase { font-size: 12px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin: 0; }
+  .fm-time { font-family: var(--display); font-weight: 800; font-size: clamp(46px, 13vw, 84px); letter-spacing: -0.03em; line-height: 1; margin: 8px 0 0; font-variant-numeric: tabular-nums; }
+  .fm-task { font-size: 16px; color: var(--sub); margin: 0 0 24px; }
+  .fm-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .fm-big { font-size: 14px; padding: 11px 24px; }
+  .fm-cycles { font-size: 12px; color: var(--faint); margin: 22px 0 0; }
+  .fm-exit { position: absolute; top: calc(16px + env(safe-area-inset-top, 0px)); right: calc(16px + env(safe-area-inset-right, 0px)); width: 40px; height: 40px; border-radius: 11px; border: 1px solid var(--border); background: var(--card); color: var(--sub); font-size: 20px; line-height: 1; cursor: pointer; z-index: 2; }
+  @media (prefers-reduced-motion: reduce) { .fm-aurora { animation: none; } .fm-prog { transition: none; } }
   .prog-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; margin-bottom: 13px; }
   .prog-n { font-family: var(--display); font-weight: 800; font-size: 23px; letter-spacing: -0.02em; margin: 0; font-variant-numeric: tabular-nums; }
   .prog-l { font-size: 11px; color: var(--sub); margin: 2px 0 0; }
@@ -200,6 +222,7 @@
       <p class="subline" id="subline"></p>
     </div>
     <div style="display:flex;gap:8px;flex-shrink:0">
+      <button class="btn" id="focusOpenBtn">Focus</button>
       <button class="btn" id="connectBtn">Connect Google</button>
       <button class="toggle" id="themeBtn" aria-label="Toggle light and dark"></button>
     </div>
@@ -216,19 +239,6 @@
       <button class="btn" id="planBtn">Plan my day</button>
     </div>
   </section>
-
-  <div class="card focusbar" id="focusBar" hidden>
-    <div class="fb-main">
-      <span class="fb-pulse"></span>
-      <div><p class="fb-label">Focusing</p><p class="fb-title" id="focusTitle"></p></div>
-    </div>
-    <div class="fb-right">
-      <span class="fb-time" id="focusTime">00:00</span>
-      <a class="btn" id="focusOpen" href="#" target="_blank" rel="noreferrer" hidden>Open</a>
-      <button class="btn btn-accent" id="focusDone">Mark done</button>
-      <button class="btn" id="focusStop">Stop</button>
-    </div>
-  </div>
 
   <div class="strip" id="strip"></div>
 
@@ -252,6 +262,9 @@
         <p class="hint">Press <kbd>n</kbd> anywhere to add · <kbd>mic</kbd> for voice</p>
         <div id="taskList"></div>
       </section>
+    </div>
+
+    <div class="col">
       <section class="card" id="progressCard">
         <p class="label">Today's progress</p>
         <div class="prog-stats">
@@ -262,13 +275,13 @@
         <div class="prog-bar"><div id="progFill" style="width:0%"></div></div>
         <p class="prog-cap" id="progCap"></p>
       </section>
-    </div>
-
-    <div class="col">
       <section class="card">
         <p class="label">Due soon</p>
         <div id="dueList"></div>
       </section>
+    </div>
+
+    <div class="col">
       <section class="card">
         <p class="label">World</p>
         <div class="chips" id="newsChips"></div>
@@ -279,6 +292,40 @@
 
   <div class="legend" id="legend"></div>
   <p class="foot" id="foot">Tasks and focus are yours. Connect Google to see your real calendar.</p>
+</div>
+
+<div id="focusMode" class="focusmode" hidden>
+  <div class="fm-aurora"></div>
+  <button class="fm-exit" id="fmExit" aria-label="Minimise focus">×</button>
+  <div class="fm-inner">
+    <div class="fm-ring">
+      <svg viewBox="0 0 100 100"><circle class="fm-track" cx="50" cy="50" r="46"></circle><circle class="fm-prog" id="fmProg" cx="50" cy="50" r="46"></circle></svg>
+      <div class="fm-ring-center">
+        <p class="fm-phase" id="fmPhase">Focus</p>
+        <p class="fm-time" id="fmTime">50:00</p>
+      </div>
+    </div>
+    <p class="fm-task" id="fmTask"></p>
+
+    <div class="fc-editor" id="fmEditor" style="margin:0 auto 20px;max-width:360px">
+      <div class="fc-presets" id="fcPresets" style="justify-content:center"></div>
+      <div class="fc-steppers" style="justify-content:center">
+        <div class="stepper"><span>Study</span><button data-k="focus" data-d="-1" aria-label="Less study">−</button><b id="cfgFocus">50</b><button data-k="focus" data-d="1" aria-label="More study">+</button><span>min</span></div>
+        <div class="stepper"><span>Break</span><button data-k="brk" data-d="-1" aria-label="Less break">−</button><b id="cfgBrk">10</b><button data-k="brk" data-d="1" aria-label="More break">+</button><span>min</span></div>
+      </div>
+    </div>
+
+    <div class="fm-actions" id="fmStartWrap">
+      <button class="btn btn-accent fm-big" id="fmStart">Start focus</button>
+    </div>
+    <div class="fm-actions" id="fmRun" hidden>
+      <button class="btn btn-accent fm-big" id="fmToggle">Pause</button>
+      <button class="btn fm-big" id="fmSkip">Skip</button>
+      <button class="btn fm-big" id="fmReset">Reset</button>
+      <button class="btn fm-big" id="fmEnd">End</button>
+    </div>
+    <p class="fm-cycles" id="fmCycles"></p>
+  </div>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -426,57 +473,115 @@
   ]);
 
   /* ---------- focus sessions (open the work + start the clock) ---------- */
-  var focus = store.get("mmd.focus", null); // { id, startedAt }
   function todayKey() { return new Date().toISOString().slice(0, 10); }
   function focusLog() { var l = store.get("mmd.focusLog", null); if (!l || l.date !== todayKey()) l = { date: todayKey(), seconds: 0, sessions: 0 }; return l; }
   function logFocus(sec) { var l = focusLog(); l.seconds += sec; l.sessions += 1; store.set("mmd.focusLog", l); }
+  function openLink(url) { if (!url) return; var a = document.createElement("a"); a.href = url; a.target = "_blank"; a.rel = "noreferrer"; document.body.appendChild(a); a.click(); a.remove(); }
+
+  /* ---------- Pomodoro focus mode (50 study / 10 break) ---------- */
+  var CFG = store.get("mmd.focusCfg", { focus: 50, brk: 10 });
+  var FOCUS_MIN = CFG.focus, BREAK_MIN = CFG.brk;
+  function applyCfg() {
+    CFG.focus = Math.max(5, Math.min(120, CFG.focus));
+    CFG.brk = Math.max(5, Math.min(30, CFG.brk));
+    FOCUS_MIN = CFG.focus; BREAK_MIN = CFG.brk;
+    store.set("mmd.focusCfg", CFG);
+    paintEditor(); if (!$("focusMode").hidden) paintFocusMode();
+  }
+  var PRESETS = [[25, 5], [50, 10], [90, 20]];
+  function paintEditor() {
+    if (!$("cfgFocus")) return;
+    $("cfgFocus").textContent = CFG.focus; $("cfgBrk").textContent = CFG.brk;
+    $("fcPresets").innerHTML = PRESETS.map(function (p) {
+      var on = p[0] === CFG.focus && p[1] === CFG.brk;
+      return '<button class="preset' + (on ? " on" : "") + '" data-f="' + p[0] + '" data-b="' + p[1] + '">' + p[0] + "/" + p[1] + "</button>";
+    }).join("");
+    Array.prototype.forEach.call($("fcPresets").children, function (b) {
+      b.onclick = function () { CFG.focus = +b.getAttribute("data-f"); CFG.brk = +b.getAttribute("data-b"); applyCfg(); };
+    });
+  }
+  var fs = store.get("mmd.focusState", null); // { taskId, phase, remaining, running, cycles }
+  var fsTimer = null;
+  function fmt(sec) { var m = Math.floor(sec / 60), s = sec % 60; return String(m).padStart(2, "0") + ":" + String(s).padStart(2, "0"); }
+  function fsTask() { return fs && fs.taskId ? tasks.filter(function (t) { return t.id === fs.taskId; })[0] : null; }
+
   function paintProgress() {
     var l = focusLog(), sec = l.seconds;
-    if (focus) sec += Math.floor((Date.now() - focus.startedAt) / 1000);
     var h = Math.floor(sec / 3600), m = Math.floor((sec % 3600) / 60);
     var fEl = document.getElementById("progFocus"); if (!fEl) return;
     fEl.textContent = h ? h + "h " + m + "m" : m + "m";
     var done = tasks.filter(function (t) { return t.done; }).length, total = tasks.length;
     document.getElementById("progDone").textContent = done;
-    document.getElementById("progSessions").textContent = l.sessions + (focus ? 1 : 0);
+    document.getElementById("progSessions").textContent = l.sessions;
     document.getElementById("progFill").style.width = (total ? Math.round(done / total * 100) : 0) + "%";
+    var focusing = fs && fs.phase === "focus" && fs.running;
     document.getElementById("progCap").textContent = total
-      ? (done === total ? "Everything's done — nice." : done + " of " + total + " tasks done" + (focus ? " · focusing now" : ""))
+      ? (done === total ? "Everything's done — nice." : done + " of " + total + " tasks done" + (focusing ? " · focusing now" : ""))
       : "Add a task to start tracking.";
   }
-  function openLink(url) { if (!url) return; var a = document.createElement("a"); a.href = url; a.target = "_blank"; a.rel = "noreferrer"; document.body.appendChild(a); a.click(); a.remove(); }
-  function activeTask() { return focus ? tasks.filter(function (t) { return t.id === focus.id; })[0] : null; }
-  function startFocus(id) {
-    var t = tasks.filter(function (x) { return x.id === id; })[0]; if (!t) return;
-    focus = { id: id, startedAt: Date.now() }; store.set("mmd.focus", focus);
-    openLink(t.link);
-    paintFocus(); tickFocus(); paintTasks();
-    toast(t.link ? "Opened and focusing — timer running" : "Focusing — timer running");
+
+  function runTimer() {
+    if (fsTimer) return;
+    fsTimer = setInterval(function () {
+      if (!fs || !fs.running) return;
+      fs.remaining--;
+      if (fs.remaining <= 0) {
+        if (fs.phase === "focus") { logFocus(FOCUS_MIN * 60); fs.cycles++; fs.phase = "break"; fs.remaining = BREAK_MIN * 60; toast("Break time — " + BREAK_MIN + " min"); }
+        else { fs.phase = "focus"; fs.remaining = FOCUS_MIN * 60; toast("Back to it — " + FOCUS_MIN + " min"); }
+      }
+      store.set("mmd.focusState", fs);
+      paintFocusMode(); paintProgress();
+    }, 1000);
   }
-  function stopFocus(markDone) {
-    if (focus) {
-      var sec = Math.floor((Date.now() - focus.startedAt) / 1000);
-      if (sec > 0) logFocus(sec);
-      if (markDone) { tasks.forEach(function (t) { if (t.id === focus.id) t.done = true; }); saveTasks(); }
+  function startSession(taskId) {
+    var t = taskId ? tasks.filter(function (x) { return x.id === taskId; })[0] : null;
+    fs = { taskId: taskId || null, phase: "focus", remaining: FOCUS_MIN * 60, running: true, cycles: 0 };
+    store.set("mmd.focusState", fs);
+    if (t && t.link) openLink(t.link);
+    openFocusMode(); runTimer(); paintTasks();
+  }
+  function toggleSession() { if (!fs) return; fs.running = !fs.running; store.set("mmd.focusState", fs); paintFocusMode(); }
+  function resetPhase() { if (!fs) return; fs.remaining = (fs.phase === "focus" ? FOCUS_MIN : BREAK_MIN) * 60; store.set("mmd.focusState", fs); paintFocusMode(); }
+  function skipPhase() {
+    if (!fs) return;
+    if (fs.phase === "focus") { var done = FOCUS_MIN * 60 - fs.remaining; if (done > 0) logFocus(done); fs.cycles++; fs.phase = "break"; fs.remaining = BREAK_MIN * 60; }
+    else { fs.phase = "focus"; fs.remaining = FOCUS_MIN * 60; }
+    store.set("mmd.focusState", fs); paintFocusMode(); paintProgress();
+  }
+  function endSession() {
+    if (fs && fs.phase === "focus") { var done = FOCUS_MIN * 60 - fs.remaining; if (done > 0) logFocus(done); }
+    fs = null; store.set("mmd.focusState", null);
+    if (fsTimer) { clearInterval(fsTimer); fsTimer = null; }
+    paintTasks(); paintProgress();
+    if (!$("focusMode").hidden) paintFocusMode(); // drop back to the setup state, stay on the screen
+  }
+  function openFocusMode() { $("focusMode").hidden = false; paintFocusMode(); }
+  function closeFocusMode() { $("focusMode").hidden = true; }
+  function setRing(frac) {
+    var circ = 2 * Math.PI * 46, p = $("fmProg");
+    if (p) { p.style.strokeDasharray = circ.toFixed(1); p.style.strokeDashoffset = (circ * (1 - Math.max(0, Math.min(1, frac)))).toFixed(1); }
+  }
+  function paintFocusMode() {
+    var idle = !fs;
+    $("fmEditor").hidden = !idle;
+    $("fmStartWrap").hidden = !idle;
+    $("fmRun").hidden = idle;
+    $("fmTask").hidden = idle;
+    if (idle) {
+      $("fmPhase").textContent = "Ready";
+      $("fmTime").textContent = fmt(FOCUS_MIN * 60);
+      setRing(1);
+      paintEditor();
+    } else {
+      $("fmPhase").textContent = fs.phase === "focus" ? "Focus" : "Break";
+      $("fmTime").textContent = fmt(fs.remaining);
+      var t = fsTask();
+      $("fmTask").textContent = t ? t.title : (fs.phase === "focus" ? "Deep work" : "Rest your eyes");
+      $("fmToggle").textContent = fs.running ? "Pause" : "Resume";
+      $("fmCycles").textContent = fs.cycles > 0 ? fs.cycles + " session" + (fs.cycles > 1 ? "s" : "") + " done today" : "";
+      var total = (fs.phase === "focus" ? FOCUS_MIN : BREAK_MIN) * 60;
+      setRing(fs.remaining / total);
     }
-    focus = null; store.set("mmd.focus", null); paintFocus(); paintTasks(); paintHead(); paintProgress();
-  }
-  function tickFocus() {
-    if (!focus) return;
-    var s = Math.floor((Date.now() - focus.startedAt) / 1000);
-    var h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), sec = s % 60;
-    var el = document.getElementById("focusTime");
-    if (el) el.textContent = (h ? h + ":" + String(m).padStart(2, "0") : m) + ":" + String(sec).padStart(2, "0");
-    paintProgress();
-  }
-  function paintFocus() {
-    var t = activeTask(), bar = document.getElementById("focusBar");
-    if (!bar) return;
-    if (!t) { bar.hidden = true; return; }
-    bar.hidden = false;
-    document.getElementById("focusTitle").textContent = t.title;
-    var open = document.getElementById("focusOpen");
-    if (t.link) { open.hidden = false; open.href = t.link; } else { open.hidden = true; }
   }
   function parseDue(text) {
     var s = text.trim(), now = new Date(), due = null;
@@ -500,7 +605,7 @@
     tasks.sort(function (a, b) { if (a.done !== b.done) return a.done ? 1 : -1; if (a.due && b.due) return new Date(a.due) - new Date(b.due); if (a.due) return -1; if (b.due) return 1; return 0; });
     $("taskList").innerHTML = tasks.length ? tasks.map(function (t) {
       var over = t.due && daysUntil(new Date(t.due)) < 0 && !t.done, ar = AREA[t.area];
-      var isFocus = focus && focus.id === t.id;
+      var isFocus = fs && fs.taskId === t.id;
       var playIcon = isFocus
         ? '<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>'
         : '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 5v14l12-7z"/></svg>';
@@ -511,9 +616,9 @@
     }).join("") : '<p style="font-size:13px;color:var(--faint);text-align:center;padding:14px 0;margin:0">No tasks yet. Add your first above.</p>';
     Array.prototype.forEach.call($("taskList").children, function (el) {
       var id = el.getAttribute("data-id"); if (!id) return;
-      el.querySelector(".check").onclick = function () { tasks.forEach(function (t) { if (t.id === id) t.done = !t.done; }); if (focus && focus.id === id) { focus = null; store.set("mmd.focus", null); paintFocus(); } saveTasks(); paintTasks(); paintHead(); paintProgress(); };
-      el.querySelector(".del").onclick = function () { if (focus && focus.id === id) stopFocus(false); tasks = tasks.filter(function (t) { return t.id !== id; }); saveTasks(); paintTasks(); paintHead(); paintProgress(); };
-      el.querySelector(".play").onclick = function () { if (focus && focus.id === id) stopFocus(false); else startFocus(id); };
+      el.querySelector(".check").onclick = function () { tasks.forEach(function (t) { if (t.id === id) t.done = !t.done; }); if (fs && fs.taskId === id) endSession(); saveTasks(); paintTasks(); paintHead(); paintProgress(); };
+      el.querySelector(".del").onclick = function () { if (fs && fs.taskId === id) endSession(); tasks = tasks.filter(function (t) { return t.id !== id; }); saveTasks(); paintTasks(); paintHead(); paintProgress(); };
+      el.querySelector(".play").onclick = function () { if (fs && fs.taskId === id) openFocusMode(); else startSession(id); };
     });
     $("taskCount").textContent = tasks.filter(function (t) { return !t.done; }).length;
   }
@@ -545,22 +650,30 @@
     if (e.key === "n") { e.preventDefault(); $("tasksCard").scrollIntoView({ behavior: "smooth", block: "center" }); $("taskInput").focus(); }
   });
   $("startBtn").onclick = function () {
+    if (fs) { openFocusMode(); return; }
     var undone = tasks.filter(function (t) { return !t.done; });
     var t = undone.filter(function (x) { return /lab/i.test(x.title); })[0] || undone[0];
-    if (!t) { toast("No open task to start"); return; }
-    startFocus(t.id);
-    $("tasksCard").scrollIntoView({ behavior: "smooth", block: "center" });
+    startSession(t ? t.id : null);
   };
   $("planBtn").onclick = function () { toast("Plan my day — wired to Claude in the live app"); };
-  $("focusDone").onclick = function () { stopFocus(true); toast("Nice — marked done"); };
-  $("focusStop").onclick = function () { stopFocus(false); };
+  $("focusOpenBtn").onclick = openFocusMode;
+  $("fmStart").onclick = function () { startSession(null); };
+  $("fmToggle").onclick = toggleSession;
+  $("fmSkip").onclick = skipPhase;
+  $("fmReset").onclick = resetPhase;
+  $("fmEnd").onclick = endSession;
+  $("fmExit").onclick = closeFocusMode;
+  Array.prototype.forEach.call(document.querySelectorAll(".fc-steppers button"), function (b) {
+    b.onclick = function () { var k = b.getAttribute("data-k"), d = +b.getAttribute("data-d") * 5; if (k === "focus") CFG.focus += d; else CFG.brk += d; applyCfg(); };
+  });
+  paintEditor();
 
   /* intro → app with staggered build */
   var opened = false;
   function openApp() {
     if (opened) return; opened = true;
     $("snapshot").innerHTML = SNAPSHOT;
-    paintHead(); paintStrip(); paintTimeline(); paintDue(); paintNews(); paintTasks(); paintFocus(); tickFocus(); paintProgress();
+    paintHead(); paintStrip(); paintTimeline(); paintDue(); paintNews(); paintTasks(); paintProgress(); if (fs) runTimer();
     var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     $("intro").classList.add("leaving");
     setTimeout(function () {
@@ -633,6 +746,5 @@
   hydrateCalendar(); hydrateWeather(); hydrateNews();
   setInterval(function () { if (!$("intro").hidden && !opened) tickClock(); }, 1000);
   setInterval(function () { if (!$("app").hidden) { paintHead(); paintTimeline(); } }, 30000);
-  setInterval(tickFocus, 1000);
 })();
 </script>
