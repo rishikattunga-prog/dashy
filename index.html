@@ -247,4 +247,1157 @@
 
   .row { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 7px 0; border-top: 1px solid var(--border); } .row:first-of-type { border-top: none; }
   .row-l { display: flex; align-items: flex-start; gap: 8px; min-width: 0; }
-  .row-title { font-size: 13px; margin: 0; } .row-sub { font-size: 11.5px; color: var(--faint); margin: 
+  .row-title { font-size: 13px; margin: 0; } .row-sub { font-size: 11.5px; color: var(--faint); margin: 1px 0 0; }
+  .row-sub.nudge { color: var(--urgent); font-weight: 600; }
+  .tag { flex-shrink: 0; font-size: 10px; font-weight: 700; border-radius: 20px; padding: 2px 8px; }
+  .tag.over, .tag.today { color: var(--urgent); background: var(--urgent-bg); }
+  .tag.soon { color: var(--accent); background: var(--accent-bg); } .tag.later { color: var(--sub); background: var(--card-alt); }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 11px; }
+  .chip { font-size: 11.5px; color: var(--sub); background: transparent; border: none; border-radius: 20px; padding: 3px 9px; cursor: pointer; } .chip.on { color: var(--fg); background: var(--card-alt); font-weight: 600; }
+  .news-item { padding: 6px 0; border-top: 1px solid var(--border); } .news-item:first-child { border-top: none; }
+  .news-h { font-size: 13px; font-weight: 500; margin: 0; line-height: 1.35; } .news-m { font-size: 11px; color: var(--faint); margin: 2px 0 0; }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 12px; margin: 22px 0 0; justify-content: center; }
+  .legend span { font-size: 11px; color: var(--sub); display: flex; align-items: center; gap: 5px; }
+  .foot { text-align: center; font-size: 12px; color: var(--faint); margin: 14px 0 0; }
+  .toast { position: fixed; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--fg); color: var(--bg); font-size: 12.5px; font-weight: 500; padding: 9px 16px; border-radius: 10px; opacity: 0; transition: opacity .2s; pointer-events: none; z-index: 20; } .toast.show { opacity: 1; }
+
+  /* weather */
+  .wx { display: flex; flex-direction: column; gap: 13px; }
+  .wx-main { display: flex; align-items: center; gap: 14px; }
+  .wx-temp { font-family: var(--display); font-weight: 800; font-size: 44px; letter-spacing: -0.03em; margin: 0; line-height: 1; font-variant-numeric: tabular-nums; }
+  .wx-cond { font-size: 14px; font-weight: 600; margin: 0; }
+  .wx-sub { font-size: 12.5px; color: var(--sub); margin: 3px 0 0; }
+  .wx-hours { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .wx-h { background: var(--card-alt); border-radius: 10px; padding: 8px 4px; text-align: center; }
+  .wx-h p { margin: 0; } .wx-h .t { font-size: 11px; color: var(--faint); } .wx-h .d { font-size: 14px; font-weight: 700; margin-top: 3px; font-variant-numeric: tabular-nums; }
+  /* launchpad */
+  .links { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .qlink { display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; color: var(--fg); text-decoration: none; background: var(--card-alt); border: 1px solid var(--border); border-radius: 10px; padding: 11px 12px; transition: border-color .15s, color .15s; }
+  .qlink:hover { border-color: var(--accent); color: var(--accent); }
+  /* quick notes */
+  #notesCard { display: flex; flex-direction: column; }
+  .notes { width: 100%; min-height: 130px; flex: 1; resize: vertical; background: var(--card-alt); border: 1px solid var(--border); border-radius: 11px; padding: 11px 12px; color: var(--fg); font-family: var(--body); font-size: 13.5px; line-height: 1.55; outline: none; }
+  .notes:focus { border-color: var(--accent); } .notes::placeholder { color: var(--faint); }
+  /* focus mini */
+  .focusmini { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .focusmini-n { font-family: var(--display); font-weight: 800; font-size: 30px; letter-spacing: -0.03em; margin: 0; font-variant-numeric: tabular-nums; }
+
+  /* ---- Japanese layer: Ma, kanso, shibui ---- */
+  .washi { position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: .04; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+  #app, #intro, .head { position: relative; z-index: 1; }
+  .jp { font-family: "Hiragino Kaku Gothic ProN", "Yu Gothic", "Noto Sans JP", sans-serif; font-weight: 600; color: var(--accent); margin-right: 8px; letter-spacing: .03em; }
+  :root[data-jp="off"] .jp { display: none; }
+  .head-left { display: flex; gap: 14px; align-items: center; }
+  .hanko { flex-shrink: 0; width: 46px; height: 46px; border-radius: 10px; background: var(--accent); color: var(--accent-ink); font-family: "Hiragino Mincho ProN", "Yu Mincho", serif; font-weight: 700; font-size: 24px; display: grid; place-items: center; }
+  .season { writing-mode: vertical-rl; text-orientation: upright; font-family: "Hiragino Mincho ProN", "Yu Mincho", serif; font-size: 13px; letter-spacing: .3em; color: var(--faint); margin: 0; align-self: center; }
+  .tate { writing-mode: vertical-rl; text-orientation: upright; font-family: "Hiragino Mincho ProN", "Yu Mincho", serif; display: flex; gap: 11px; align-self: center; }
+  .tate .td { font-size: 12.5px; letter-spacing: .1em; color: var(--sub); margin: 0; white-space: nowrap; }
+  .tate .ts { font-size: 12.5px; letter-spacing: .24em; color: var(--accent); margin: 0; white-space: nowrap; }
+  @media (max-width: 560px) { .tate { display: none; } }
+  .spine { display: grid; grid-template-columns: 1.25fr 1fr; gap: 20px 22px; align-items: stretch; }
+  .spine .col { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+  .ambient { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; align-items: stretch; }
+  #focusCard { display: flex; flex-direction: column; } #focusCard .focusmini { flex: 1; }
+  .col-cap, .zone-cap { font-family: "Hiragino Mincho ProN", "Yu Mincho", serif; font-size: 11px; letter-spacing: .22em; color: var(--faint); margin: 2px 0 1px 3px; }
+  .zone-cap { margin: 26px 0 1px 3px; }
+  #newsList { columns: 2; column-gap: 28px; } .news-item { break-inside: avoid; }
+  #worldCard { margin-top: 18px; }
+  @media (max-width: 1040px) { .spine { grid-template-columns: 1fr; } .ambient { grid-template-columns: 1fr 1fr; } #newsList { columns: 1; } }
+  @media (max-width: 680px) { .ambient { grid-template-columns: 1fr; } }
+  :root[data-density="compact"] .spine, :root[data-density="compact"] .ambient { gap: 14px 16px; } :root[data-density="compact"] .spine .col { gap: 14px; }
+
+  /* intro "your day" snapshot */
+  .intro-snap { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 15px 16px; margin: 22px 0 0; animation-delay: .3s; }
+  .intro-snap .snap-head { margin-bottom: 8px; }
+  .intro-snap .snap-body { font-size: 15px; line-height: 1.6; max-width: none; }
+
+  /* settings sheet */
+  .sheet { position: fixed; inset: 0; z-index: 70; }
+  .sheet[hidden] { display: none; }
+  .sheet-scrim { position: absolute; inset: 0; background: rgba(0,0,0,.5); animation: fade .2s ease; }
+  @keyframes fade { from { opacity: 0; } }
+  .sheet-panel { position: absolute; top: 0; right: 0; height: 100%; width: min(430px, 92vw); background: var(--bg); border-left: 1px solid var(--border); overflow-y: auto; padding: calc(22px + env(safe-area-inset-top,0px)) 22px 32px; animation: slideIn .28s cubic-bezier(.2,.7,.2,1); }
+  @keyframes slideIn { from { transform: translateX(100%); } }
+  .sheet-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+  .sheet-title { font-family: var(--display); font-weight: 800; font-size: 24px; letter-spacing: -0.02em; margin: 0; }
+  .set-sec { border-top: 1px solid var(--border); padding: 18px 0; }
+  .set-sec:first-of-type { border-top: none; padding-top: 0; }
+  .set-h { font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--faint); margin: 0 0 12px; }
+  .set-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 8px 0; }
+  .set-row p { margin: 0; } .set-name { font-size: 14px; font-weight: 600; } .set-desc { font-size: 12px; color: var(--sub); margin-top: 2px !important; }
+  .switch { flex-shrink: 0; width: 44px; height: 26px; border-radius: 20px; border: none; background: var(--card-alt); position: relative; cursor: pointer; transition: background .18s; }
+  .switch::after { content: ""; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: var(--sub); transition: transform .18s, background .18s; }
+  .switch.on { background: var(--accent); } .switch.on::after { transform: translateX(18px); background: var(--accent-ink); }
+  .seg { display: inline-flex; gap: 4px; background: var(--card-alt); border-radius: 9px; padding: 3px; flex-shrink: 0; }
+  .seg button { border: none; background: transparent; color: var(--sub); font-size: 12px; font-weight: 600; border-radius: 6px; padding: 5px 11px; cursor: pointer; font-family: var(--body); }
+  .seg button.on { background: var(--accent); color: var(--accent-ink); }
+  .set-btn { width: 100%; font-size: 13.5px; font-weight: 600; border-radius: 10px; padding: 11px 14px; cursor: pointer; border: 1px solid var(--border); background: var(--card); color: var(--fg); }
+  .set-btn:hover { background: var(--card-alt); }
+  .set-btn.accent { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); } .set-btn.accent:hover { filter: brightness(1.06); }
+  .set-note { font-size: 11.5px; color: var(--faint); margin: 10px 0 0; line-height: 1.5; }
+
+  .reveal { animation: rise .55s cubic-bezier(.2,.7,.2,1) both; }
+  @media (prefers-reduced-motion: reduce) { #aurora, .intro-inner > *, .wd, .reveal, .fb-pulse, #intro.leaving { animation: none !important; } #intro.leaving { opacity: 0; } }
+</style>
+
+<div class="washi" aria-hidden="true"></div>
+
+<div id="intro" class="gut">
+  <div id="aurora"></div>
+  <div class="intro-inner">
+    <p class="brand">Dashy</p>
+    <p class="i-clock" id="iClock">—</p>
+    <p class="intro-eyebrow" id="introDate">This week</p>
+    <h1 class="intro-h" id="introLine">Good morning, Rishi.</h1>
+    <p class="intro-sub" id="introSub"></p>
+    <div class="intro-snap" id="introSnap">
+      <div class="snap-head">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="var(--accent)" stroke-width="2" aria-hidden="true"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z" stroke-linejoin="round"/></svg>
+        <span class="label">Your day</span>
+      </div>
+      <p class="snap-body" id="introSnapshot"></p>
+    </div>
+    <div class="stats" id="stats"></div>
+    <p class="wk-cap">Your week</p>
+    <div class="week" id="weekGrid"></div>
+    <div class="enter"><button class="enter-btn" id="enterBtn">Open today →</button></div>
+  </div>
+</div>
+
+<div id="app" class="gut" hidden>
+  <div class="head">
+    <div class="head-left">
+      <div class="hanko" aria-hidden="true">朝</div>
+      <div>
+        <p class="eyebrow" id="eyebrow"></p>
+        <h1 id="greeting">Good morning, Rishi.</h1>
+        <p class="subline" id="subline"></p>
+      </div>
+    </div>
+    <div style="display:flex;gap:10px;flex-shrink:0;align-items:center">
+      <button class="btn" id="focusOpenBtn">Focus</button>
+      <button class="btn" id="snapBtn"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-1px;margin-right:4px" aria-hidden="true"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z" stroke-linejoin="round"/></svg>Snapshot</button>
+      <button class="toggle" id="themeBtn" aria-label="Toggle light and dark"></button>
+      <button class="toggle" id="settingsBtn" aria-label="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 11-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 110-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 114 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 110 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg></button>
+    </div>
+  </div>
+
+  <section class="card snap" id="snapCard" hidden>
+    <div class="snap-head">
+      <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="var(--accent)" stroke-width="2" aria-hidden="true"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z" stroke-linejoin="round"/></svg>
+      <span class="label">Your day</span>
+    </div>
+    <p class="snap-body" id="snapshot"></p>
+    <div class="snap-actions">
+      <button class="btn btn-accent" id="startBtn">Start the lab now</button>
+      <button class="btn" id="planBtn">Plan my day</button>
+    </div>
+  </section>
+
+  <div class="strip" id="strip"></div>
+
+  <div class="kpis" id="kpis"></div>
+
+  <div class="spine" id="spine">
+    <div class="col" id="zoneToday">
+      <p class="col-cap">今日 ・ TODAY</p>
+      <section class="card donext-card" id="donextCard">
+        <p class="label"><span class="jp">次</span>Do next</p>
+        <div id="doNext"></div>
+      </section>
+      <section class="card" id="wxCard">
+        <p class="label"><span class="jp">天気</span>Weather</p>
+        <div class="wx">
+          <div class="wx-main">
+            <p class="wx-temp" id="wxTemp">—</p>
+            <div><p class="wx-cond" id="wxCond"></p><p class="wx-sub" id="wxSub"></p></div>
+          </div>
+          <div class="wx-hours" id="wxHours"></div>
+        </div>
+      </section>
+      <section class="card accent-card" id="scheduleCard">
+        <p class="label"><span class="jp">時間</span>Today's schedule</p>
+        <div class="addrow" style="margin-bottom:12px">
+          <input id="calInput" placeholder="Add to calendar — e.g. Gym tomorrow 7am" autocomplete="off">
+          <button class="mic" id="calMic" aria-label="Add event by voice"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 2a3 3 0 00-3 3v7a3 3 0 006 0V5a3 3 0 00-3-3zM5 11a7 7 0 0014 0M12 18v4"/></svg></button>
+          <button class="btn btn-accent" id="calAddBtn" style="padding:5px 12px">Add</button>
+        </div>
+        <div class="tl" id="timeline"><div class="tl-line"></div></div>
+      </section>
+    </div>
+
+    <div class="col" id="zoneAct">
+      <p class="col-cap">行動 ・ ACT</p>
+      <section class="card" id="tasksCard">
+        <p class="label"><span class="jp">課題</span>Tasks · <span id="taskCount">0</span> left</p>
+        <div class="addrow">
+          <input id="taskInput" placeholder="Add a task — e.g. prep deck tomorrow at 5pm" autocomplete="off">
+          <select class="areasel" id="areaSel" aria-label="Area">
+            <option value="class">Class</option><option value="180dc">180DC</option>
+            <option value="caso">CASO</option><option value="ra">RA</option><option value="research">Research</option>
+          </select>
+          <button class="mic" id="micBtn" aria-label="Add by voice"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 2a3 3 0 00-3 3v7a3 3 0 006 0V5a3 3 0 00-3-3zM5 11a7 7 0 0014 0M12 18v4"/></svg></button>
+          <button class="btn btn-accent" id="addBtn" style="padding:5px 12px">Add</button>
+        </div>
+        <p class="hint">Press <kbd>n</kbd> anywhere to add · <kbd>mic</kbd> for voice</p>
+        <div id="taskList"></div>
+        <div class="prog-foot">
+          <div class="prog-bar"><div id="progFill" style="width:0%"></div></div>
+          <p class="prog-cap" id="progCap"></p>
+        </div>
+      </section>
+      <section class="card" id="countCard">
+        <p class="label"><span class="jp">残り</span>Countdown</p>
+        <div id="countList"></div>
+      </section>
+    </div>
+
+  </div>
+
+  <p class="zone-cap">周辺 ・ AROUND</p>
+  <div class="ambient" id="ambient">
+    <section class="card fun-card" id="funCard">
+      <p class="label"><span class="jp">今日の運</span>Fortune</p>
+      <div class="omikuji" id="omikuji"></div>
+    </section>
+    <section class="card" id="focusCard">
+      <p class="label"><span class="jp">集中</span>Focus</p>
+      <div class="focusmini">
+        <div><p class="focusmini-n" id="fmFocused">0m</p><p class="prog-l">focused today</p></div>
+        <button class="btn btn-accent" id="fmQuick">Start focus</button>
+      </div>
+    </section>
+    <section class="card" id="launchCard">
+      <p class="label"><span class="jp">リンク</span>Launchpad</p>
+      <div class="links">
+        <a class="qlink" href="https://purdue.brightspace.com" target="_blank" rel="noreferrer">Brightspace</a>
+        <a class="qlink" href="https://mail.google.com" target="_blank" rel="noreferrer">Gmail</a>
+        <a class="qlink" href="https://calendar.google.com" target="_blank" rel="noreferrer">Calendar</a>
+        <a class="qlink" href="https://drive.google.com" target="_blank" rel="noreferrer">Drive</a>
+        <a class="qlink" href="https://wl.mypurdue.purdue.edu" target="_blank" rel="noreferrer">myPurdue</a>
+        <a class="qlink" href="https://www.purdue.edu" target="_blank" rel="noreferrer">Purdue</a>
+      </div>
+    </section>
+  </div>
+
+  <section class="card" id="worldCard">
+    <p class="label"><span class="jp">世界</span>World</p>
+    <div class="chips" id="newsChips"></div>
+    <div id="newsList"></div>
+  </section>
+
+  <div class="legend" id="legend"></div>
+  <p class="foot" id="foot">Tasks and focus are yours. Connect Google to see your real calendar.</p>
+</div>
+
+<div id="focusMode" class="focusmode" hidden>
+  <div class="fm-aurora"></div>
+  <button class="fm-exit" id="fmExit" aria-label="Minimise focus">×</button>
+  <div class="fm-inner">
+    <div class="fm-ring">
+      <svg viewBox="0 0 100 100">
+        <defs>
+          <filter id="sumi" x="-25%" y="-25%" width="150%" height="150%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.016" numOctaves="2" seed="7" result="n"/>
+            <feDisplacementMap in="SourceGraphic" in2="n" scale="3.4" xChannelSelector="R" yChannelSelector="G"/>
+          </filter>
+        </defs>
+        <g filter="url(#sumi)">
+          <circle class="fm-track" cx="50" cy="50" r="46"></circle>
+          <circle class="fm-prog" id="fmProg" cx="50" cy="50" r="46"></circle>
+        </g>
+      </svg>
+      <div class="fm-ring-center">
+        <p class="fm-phase" id="fmPhase">Focus</p>
+        <p class="fm-time" id="fmTime">50:00</p>
+      </div>
+    </div>
+    <p class="fm-task" id="fmTask"></p>
+
+    <div class="fc-editor" id="fmEditor" style="margin:0 auto 20px;max-width:360px">
+      <div class="fc-presets" id="fcPresets" style="justify-content:center"></div>
+      <div class="fc-steppers" style="justify-content:center">
+        <div class="stepper"><span>Study</span><button data-k="focus" data-d="-1" aria-label="Less study">−</button><b id="cfgFocus">50</b><button data-k="focus" data-d="1" aria-label="More study">+</button><span>min</span></div>
+        <div class="stepper"><span>Break</span><button data-k="brk" data-d="-1" aria-label="Less break">−</button><b id="cfgBrk">10</b><button data-k="brk" data-d="1" aria-label="More break">+</button><span>min</span></div>
+      </div>
+    </div>
+
+    <div class="fm-actions" id="fmStartWrap">
+      <button class="btn btn-accent fm-big" id="fmStart">Start focus</button>
+    </div>
+    <div class="fm-actions" id="fmRun" hidden>
+      <button class="btn btn-accent fm-big" id="fmToggle">Pause</button>
+      <button class="btn fm-big" id="fmSkip">Skip</button>
+      <button class="btn fm-big" id="fmReset">Reset</button>
+      <button class="btn fm-big" id="fmEnd">End</button>
+    </div>
+    <p class="fm-cycles" id="fmCycles"></p>
+  </div>
+</div>
+
+<div id="settings" class="sheet" hidden>
+  <div class="sheet-scrim" id="settingsScrim"></div>
+  <div class="sheet-panel">
+    <div class="sheet-top">
+      <p class="sheet-title">Settings</p>
+      <button class="toggle" id="settingsClose" aria-label="Close settings" style="font-size:20px">×</button>
+    </div>
+
+    <div class="set-sec">
+      <p class="set-h">Customize</p>
+      <div class="set-row">
+        <div><p class="set-name">Accent</p><p class="set-desc">Your signal color</p></div>
+        <div class="swatches" id="swatches"></div>
+      </div>
+      <div class="set-row">
+        <div><p class="set-name">Density</p><p class="set-desc">Roomy or tight</p></div>
+        <div class="seg" id="densitySeg"></div>
+      </div>
+      <div class="set-row">
+        <div><p class="set-name">Japanese labels</p><p class="set-desc">Kanji markers on each card</p></div>
+        <button class="switch" id="swJp" role="switch" aria-label="Japanese labels"></button>
+      </div>
+    </div>
+
+    <div class="set-sec">
+      <p class="set-h">Cards</p>
+      <p class="set-desc" style="margin:-4px 0 10px">Show only what you want on the board.</p>
+      <div id="cardToggles"></div>
+    </div>
+
+    <div class="set-sec">
+      <p class="set-h">Account</p>
+      <div class="set-row">
+        <div><p class="set-name" id="acctName">Google Calendar</p><p class="set-desc" id="acctDesc">Not connected — using sample data</p></div>
+      </div>
+      <button class="set-btn accent" id="connectBtn" style="margin-top:8px">Connect Google</button>
+      <p class="set-note">Dashy reads your primary calendar, read-only, to fill Today and Due soon. Your token is encrypted in a cookie — no database.</p>
+    </div>
+
+    <div class="set-sec">
+      <p class="set-h">Notifications</p>
+      <div class="set-row">
+        <div><p class="set-name">Enable notifications</p><p class="set-desc">Let Dashy nudge you on this device</p></div>
+        <button class="switch" id="swNotif" role="switch" aria-label="Enable notifications"></button>
+      </div>
+      <div class="set-row">
+        <div><p class="set-name">Deadline reminders</p><p class="set-desc">A nudge as assignments & exams close in</p></div>
+        <button class="switch" id="swDeadline" role="switch" aria-label="Deadline reminders"></button>
+      </div>
+      <div class="set-row">
+        <div><p class="set-name">Event reminders</p><p class="set-desc">Before classes & meetings start</p></div>
+        <div class="seg" id="leadSeg"></div>
+      </div>
+      <button class="set-btn" id="testNotif" style="margin-top:8px">Send a test notification</button>
+    </div>
+
+    <div class="set-sec">
+      <p class="set-h">Install</p>
+      <div class="set-row">
+        <div><p class="set-name">Add Dashy to your home screen</p><p class="set-desc">Open it like an app, full-screen</p></div>
+      </div>
+      <button class="set-btn" id="installBtn" style="margin-top:8px">Install Dashy</button>
+      <p class="set-note">iPhone (Safari): Share → Add to Home Screen. Chrome / Android: tap Install.</p>
+    </div>
+
+    <div class="set-sec">
+      <p class="set-h">Appearance</p>
+      <div class="set-row">
+        <div><p class="set-name">Theme</p><p class="set-desc">Match the mood of your shell</p></div>
+        <div class="seg" id="themeSeg"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var store = {
+    get: function (k, d) { try { var v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
+    set: function (k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+  };
+  function toast(msg) { var t = $("toast"); t.textContent = msg; t.classList.add("show"); clearTimeout(t._h); t._h = setTimeout(function () { t.classList.remove("show"); }, 2200); }
+
+  var AREA = {
+    class: { name: "Class", c: "var(--area-class)" }, "180dc": { name: "180DC", c: "var(--area-180dc)" },
+    caso: { name: "CASO", c: "var(--area-caso)" }, ra: { name: "RA", c: "var(--area-ra)" }, research: { name: "Research", c: "var(--area-research)" }
+  };
+
+  /* theme */
+  var themeBtn = $("themeBtn");
+  var sun = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path stroke-linecap="round" d="M12 2v2m0 16v2M2 12h2m16 0h2m-3-7l-1.5 1.5M6.5 17.5L5 19m0-14l1.5 1.5M17.5 17.5L19 19"/></svg>';
+  var moon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg>';
+  function isDark() { var a = document.documentElement.getAttribute("data-theme"); if (a) return a === "dark"; return window.matchMedia("(prefers-color-scheme: dark)").matches; }
+  function paintToggle() { themeBtn.innerHTML = isDark() ? sun : moon; }
+  var savedTheme = store.get("mmd.theme", null); if (savedTheme) document.documentElement.setAttribute("data-theme", savedTheme);
+  paintToggle();
+  themeBtn.onclick = function () { var n = isDark() ? "light" : "dark"; document.documentElement.setAttribute("data-theme", n); store.set("mmd.theme", n); paintToggle(); };
+
+  /* data */
+  function atToday(h, m) { var d = new Date(); d.setHours(h, m || 0, 0, 0); return d; }
+  function dayAt(off, h) { var d = new Date(); d.setDate(d.getDate() + off); d.setHours(h || 23, 0, 0, 0); return d; }
+  var EVENTS = [
+    { t: "Cybersecurity Fundamentals II", m: "CNIT 271 · Knoy 305", s: atToday(9, 30), e: atToday(10, 20), area: "class", link: null },
+    { t: "Marketing Research", m: "MKTG 425 · Rawls 1058", s: atToday(11, 30), e: atToday(12, 20), area: "class", link: null },
+    { t: "180DC client sync", m: "Krach 226", s: atToday(15, 0), e: atToday(15, 45), area: "180dc", link: "https://meet.google.com/abc-defg-hij" },
+    { t: "RA floor event", m: "Hall lounge", s: atToday(19, 0), e: atToday(20, 0), area: "ra", link: null }
+  ];
+  var DUE = [
+    { t: "CNIT 271 Lab 7 report", area: "class", due: dayAt(0, 23) },
+    { t: "MKTG 425 lab report", area: "class", due: dayAt(1, 23) },
+    { t: "CASO event prep", area: "caso", due: dayAt(2, 20) },
+    { t: "STAT 350 Exam 2", area: "class", due: dayAt(3, 8), exam: true },
+    { t: "180DC case comp deliverable", area: "180dc", due: dayAt(4, 23) },
+    { t: "ECON 360 problem set", area: "class", due: dayAt(5, 23) }
+  ];
+  var SNAPSHOT = 'Two classes and a 3 PM client sync today. Your <b>CNIT 271 lab is due tonight</b> — start it before the 7 PM floor event or it slips. <b>STAT 350 exam is Friday</b>; block an hour over the next two days. CASO prep is due Thursday — hand it to your team early.';
+  var WX = { temp: 14, nudge: "rain after 2pm", cond: "Partly cloudy", loc: "West Lafayette", hours: [["1p", 14], ["2p", 13], ["3p", 12], ["4p", 12]] };
+  var connected = false;
+  var NEWS = [
+    { h: "Chipmakers signal tighter supply into next year", s: "Reuters", a: "1h", c: "Tech" },
+    { h: "RBI holds policy rate, flags food inflation", s: "Mint", a: "3h", c: "India" },
+    { h: "Widely used file-transfer tool patched after exploits", s: "BleepingComputer", a: "5h", c: "Cyber" },
+    { h: "Consulting firms expand summer analyst classes", s: "WSJ", a: "6h", c: "Business" },
+    { h: "Purdue extends late-night study space in WALC", s: "Exponent", a: "8h", c: "Purdue" }
+  ];
+
+  /* helpers */
+  function fmtTime(d) { return d.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" }); }
+  function startOfDay(d) { var x = new Date(d); x.setHours(0, 0, 0, 0); return x; }
+  function daysUntil(d) { return Math.round((startOfDay(d) - startOfDay(new Date())) / 86400000); }
+  function dueTag(d) { var n = daysUntil(d); if (n < 0) return { cls: "over", txt: "Overdue" }; if (n === 0) return { cls: "today", txt: "Today" }; if (n === 1) return { cls: "soon", txt: "Tomorrow" }; if (n <= 6) return { cls: "later", txt: d.toLocaleDateString([], { weekday: "short" }) }; return { cls: "later", txt: d.toLocaleDateString([], { month: "short", day: "numeric" }) }; }
+
+  function buildWeek() {
+    var out = [];
+    for (var i = 0; i < 7; i++) {
+      var d = new Date(); d.setDate(d.getDate() + i); d.setHours(0, 0, 0, 0);
+      var items = DUE.filter(function (x) { return daysUntil(x.due) === i; });
+      if (i === 0) items = items.concat(EVENTS.map(function (e) { return { area: e.area }; }));
+      out.push({ date: d, items: items, exam: DUE.some(function (x) { return x.exam && daysUntil(x.due) === i; }), today: i === 0 });
+    }
+    return out;
+  }
+  var WEEK = buildWeek();
+  var examDays = (function () { var e = DUE.filter(function (x) { return x.exam; }); return e.length ? daysUntil(e[0].due) : null; })();
+
+  /* intro */
+  function tickClock() { $("iClock").textContent = new Date().toLocaleTimeString([], { hour: "numeric", minute: "2-digit", second: "2-digit" }); }
+  function paintIntro() {
+    var now = new Date(), hr = now.getHours();
+    $("introDate").textContent = "Week of " + now.toLocaleDateString([], { month: "long", day: "numeric" });
+    $("introLine").textContent = (hr < 12 ? "Good morning" : hr < 17 ? "Good afternoon" : "Good evening") + ", Rishi.";
+    $("introSub").textContent = "A busy stretch, but nothing you can't pace. Start with the lab, keep Friday's exam in view, and the afternoon stays yours.";
+    $("stats").innerHTML =
+      '<div class="stat"><p class="stat-n">' + EVENTS.length + '</p><p class="stat-l">events today</p></div>' +
+      '<div class="stat"><p class="stat-n">' + DUE.length + '</p><p class="stat-l">deadlines this week</p></div>' +
+      '<div class="stat"><p class="stat-n" style="color:var(--urgent)">' + (examDays != null ? examDays + "d" : "—") + '</p><p class="stat-l">to STAT 350 exam</p></div>';
+    $("weekGrid").innerHTML = WEEK.map(function (w) {
+      var dots = w.items.slice(0, 4).map(function (it) { return '<span style="background:' + (AREA[it.area] ? AREA[it.area].c : "var(--sub)") + '"></span>'; }).join("");
+      return '<div class="wd' + (w.today ? ' today' : '') + '">'
+        + '<p class="wd-l">' + w.date.toLocaleDateString([], { weekday: "short" }) + '</p>'
+        + '<p class="wd-n">' + w.date.getDate() + '</p>'
+        + '<div class="wd-dots">' + dots + '</div>'
+        + (w.exam ? '<div class="wd-exam" title="Exam"></div>' : '')
+        + '</div>';
+    }).join("");
+    Array.prototype.forEach.call($("weekGrid").children, function (el, i) { el.style.animationDelay = (0.48 + i * 0.05) + "s"; });
+    var isn = $("introSnapshot"); if (isn) isn.innerHTML = SNAPSHOT;
+    tickClock();
+  }
+
+  function paintStrip() {
+    $("strip").innerHTML = WEEK.map(function (w) {
+      var dots = w.items.slice(0, 3).map(function (it) { return '<i style="background:' + (AREA[it.area] ? AREA[it.area].c : "var(--sub)") + '"></i>'; }).join("");
+      return '<div class="sd' + (w.today ? ' today' : '') + '"><p class="sd-l">' + w.date.toLocaleDateString([], { weekday: "short" }).slice(0, 2) + '</p><p class="sd-n">' + w.date.getDate() + '</p><div class="sd-dots">' + dots + '</div></div>';
+    }).join("");
+  }
+  function paintHead() {
+    var now = new Date(), hr = now.getHours();
+    $("greeting").textContent = (hr < 12 ? "Good morning" : hr < 17 ? "Good afternoon" : "Good evening") + ", Rishi.";
+    $("eyebrow").textContent = now.toLocaleDateString([], { weekday: "long", month: "long", day: "numeric" });
+    var left = undoneCount();
+    $("subline").innerHTML = EVENTS.length + " events · " + left + " to do · <b>" + WX.temp + "°</b> " + WX.nudge;
+    paintKpis(); paintDoNext();
+  }
+  function paintTimeline() {
+    var host = $("timeline"); if (!host) return;
+    var DAY_START = 8 * 60, DAY_END = 22 * 60, MIN_GAP = 13; // minutes window, min % gap
+    var now = new Date(), nowMin = now.getHours() * 60 + now.getMinutes();
+    function pct(min) { return Math.max(0, Math.min(100, (min - DAY_START) / (DAY_END - DAY_START) * 100)); }
+    var evs = EVENTS.map(function (e) {
+      var s = e.s instanceof Date ? e.s : new Date(e.s), en = e.e instanceof Date ? e.e : new Date(e.e);
+      return { t: e.t, m: e.m, link: e.link, area: e.area, s: s, e: en, min: s.getHours() * 60 + s.getMinutes() };
+    }).sort(function (a, b) { return a.min - b.min; });
+    var last = -100;
+    evs.forEach(function (e) { var p = pct(e.min); if (p < last + MIN_GAP) p = last + MIN_GAP; e.pos = Math.min(p, 100); last = e.pos; });
+    var html = '<div class="rail-line"></div>';
+    if (nowMin >= DAY_START && nowMin <= DAY_END) html += '<div class="rail-now" style="top:' + pct(nowMin) + '%"><span>now</span></div>';
+    evs.forEach(function (e) {
+      var live = now >= e.s && now <= e.e, past = now > e.e;
+      html += '<div class="rail-ev' + (past ? ' past' : '') + (live ? ' live' : '') + '" style="top:' + e.pos + '%">'
+        + '<span class="rail-time">' + fmtTime(e.s) + '</span>'
+        + '<span class="rail-dot" style="--dot:' + (AREA[e.area] ? AREA[e.area].c : "var(--sub)") + '"></span>'
+        + '<div class="rail-body"><p class="ev-title">' + e.t + (live ? '<span class="nowpill">Now</span>' : '') + '</p><p class="ev-meta">' + (e.m || "") + '</p>'
+        + (e.link && !past ? '<a class="join" href="' + e.link + '" target="_blank" rel="noreferrer">Join</a>' : '') + '</div></div>';
+    });
+    host.innerHTML = html;
+  }
+  function paintDue() {
+    if (!document.getElementById("dueList")) return;
+    $("dueList").innerHTML = DUE.slice().sort(function (a, b) { return a.due - b.due; }).map(function (d) {
+      var tag = dueTag(d.due), n = daysUntil(d.due), ar = AREA[d.area];
+      var nudge = d.exam && n >= 0 && n <= 3 ? '<p class="row-sub nudge">in ' + n + ' day' + (n === 1 ? '' : 's') + ' · block study time</p>' : '<p class="row-sub">' + (ar ? ar.name : '') + '</p>';
+      return '<div class="row"><div class="row-l"><span class="adot" style="margin-top:4px;background:' + (ar ? ar.c : 'var(--sub)') + '"></span><div><p class="row-title">' + d.t + '</p>' + nudge + '</div></div><span class="tag ' + tag.cls + '">' + tag.txt + '</span></div>';
+    }).join("");
+  }
+  var cats = ["All"]; NEWS.forEach(function (n) { if (cats.indexOf(n.c) < 0) cats.push(n.c); });
+  var activeCat = "All";
+  function paintNews() {
+    $("newsChips").innerHTML = cats.map(function (c) { return '<button class="chip' + (c === activeCat ? ' on' : '') + '" data-c="' + c + '">' + c + '</button>'; }).join("");
+    $("newsList").innerHTML = NEWS.filter(function (n) { return activeCat === "All" || n.c === activeCat; }).map(function (n) { return '<div class="news-item"><p class="news-h">' + n.h + '</p><p class="news-m">' + n.s + ' · ' + n.a + ' · ' + n.c + '</p></div>'; }).join("");
+    Array.prototype.forEach.call($("newsChips").children, function (b) { b.onclick = function () { activeCat = b.getAttribute("data-c"); paintNews(); }; });
+  }
+  $("legend").innerHTML = Object.keys(AREA).map(function (k) { return '<span><span class="adot" style="background:' + AREA[k].c + '"></span>' + AREA[k].name + '</span>'; }).join("");
+
+  /* tasks */
+  var tasks = store.get("mmd.tasks", [
+    { id: "s1", title: "Finish CNIT 271 lab report", due: dayAt(0, 23).toISOString(), area: "class", done: false, link: "https://purdue.brightspace.com" },
+    { id: "s2", title: "Submit 180DC reimbursement form", due: dayAt(0, 18).toISOString(), area: "180dc", done: false }
+  ]);
+
+  /* ---------- focus sessions (open the work + start the clock) ---------- */
+  function todayKey() { return new Date().toISOString().slice(0, 10); }
+  function focusLog() { var l = store.get("mmd.focusLog", null); if (!l || l.date !== todayKey()) l = { date: todayKey(), seconds: 0, sessions: 0 }; return l; }
+  function logFocus(sec) { var l = focusLog(); l.seconds += sec; l.sessions += 1; store.set("mmd.focusLog", l); }
+  function openLink(url) { if (!url) return; var a = document.createElement("a"); a.href = url; a.target = "_blank"; a.rel = "noreferrer"; document.body.appendChild(a); a.click(); a.remove(); }
+
+  /* ---------- Pomodoro focus mode (50 study / 10 break) ---------- */
+  var CFG = store.get("mmd.focusCfg", { focus: 50, brk: 10 });
+  var FOCUS_MIN = CFG.focus, BREAK_MIN = CFG.brk;
+  function applyCfg() {
+    CFG.focus = Math.max(5, Math.min(120, CFG.focus));
+    CFG.brk = Math.max(5, Math.min(30, CFG.brk));
+    FOCUS_MIN = CFG.focus; BREAK_MIN = CFG.brk;
+    store.set("mmd.focusCfg", CFG);
+    paintEditor(); if (!$("focusMode").hidden) paintFocusMode();
+  }
+  var PRESETS = [[25, 5], [50, 10], [90, 20]];
+  function paintEditor() {
+    if (!$("cfgFocus")) return;
+    $("cfgFocus").textContent = CFG.focus; $("cfgBrk").textContent = CFG.brk;
+    $("fcPresets").innerHTML = PRESETS.map(function (p) {
+      var on = p[0] === CFG.focus && p[1] === CFG.brk;
+      return '<button class="preset' + (on ? " on" : "") + '" data-f="' + p[0] + '" data-b="' + p[1] + '">' + p[0] + "/" + p[1] + "</button>";
+    }).join("");
+    Array.prototype.forEach.call($("fcPresets").children, function (b) {
+      b.onclick = function () { CFG.focus = +b.getAttribute("data-f"); CFG.brk = +b.getAttribute("data-b"); applyCfg(); };
+    });
+  }
+  var fs = store.get("mmd.focusState", null); // { taskId, phase, remaining, running, cycles }
+  var fsTimer = null;
+  function fmt(sec) { var m = Math.floor(sec / 60), s = sec % 60; return String(m).padStart(2, "0") + ":" + String(s).padStart(2, "0"); }
+  function fsTask() { return fs && fs.taskId ? tasks.filter(function (t) { return t.id === fs.taskId; })[0] : null; }
+
+  function fmtFocus(sec) { var h = Math.floor(sec / 3600), m = Math.floor((sec % 3600) / 60); return h ? h + "h " + m + "m" : m + "m"; }
+  function nextDue() { if (!DUE.length) return null; return DUE.slice().sort(function (a, b) { return a.due - b.due; })[0]; }
+  function paintKpis() {
+    var el = document.getElementById("kpis"); if (!el) return;
+    var left = undoneCount();
+    var l = focusLog(), nd = nextDue(), ndTxt = "—", ndSub = "nothing due", urgent = false;
+    if (nd) { var n = daysUntil(nd.due); urgent = n <= 1; ndTxt = n < 0 ? "Past" : n === 0 ? "Today" : n === 1 ? "1d" : n + "d"; ndSub = nd.t.length > 24 ? nd.t.slice(0, 24) + "…" : nd.t; }
+    var tiles = [
+      { n: EVENTS.length, l: "events today", s: "" },
+      { n: left, l: left === 1 ? "task left" : "tasks left", s: "" },
+      { n: ndTxt, l: "next deadline", s: ndSub, u: urgent },
+      { n: fmtFocus(l.seconds), l: "focused today", s: l.sessions ? l.sessions + " session" + (l.sessions === 1 ? "" : "s") : "no sessions yet" }
+    ];
+    el.innerHTML = tiles.map(function (t) {
+      return '<div class="kpi"><p class="kpi-n"' + (t.u ? ' style="color:var(--urgent)"' : '') + '>' + t.n + '</p><p class="kpi-l">' + t.l + '</p>' + (t.s ? '<p class="kpi-sub">' + t.s + '</p>' : '') + '</div>';
+    }).join("");
+  }
+  function paintProgress() {
+    var l = focusLog();
+    var done = tasks.filter(function (t) { return t.done; }).length + DUE.filter(function (d) { return doneDeadlines[calId(d)]; }).length;
+    var total = tasks.length + DUE.length;
+    var fill = document.getElementById("progFill"); if (fill) fill.style.width = (total ? Math.round(done / total * 100) : 0) + "%";
+    var focusing = fs && fs.phase === "focus" && fs.running;
+    var cap = document.getElementById("progCap");
+    if (cap) cap.textContent = total
+      ? (done === total ? "Everything's done — nice work." : done + " of " + total + " tasks done" + (l.sessions ? " · " + l.sessions + " session" + (l.sessions === 1 ? "" : "s") : "") + (focusing ? " · focusing now" : ""))
+      : "Add a task to start tracking.";
+    paintKpis(); paintFocusMini();
+  }
+
+  function runTimer() {
+    if (fsTimer) return;
+    fsTimer = setInterval(function () {
+      if (!fs || !fs.running) return;
+      fs.remaining--;
+      if (fs.remaining <= 0) {
+        if (fs.phase === "focus") { logFocus(FOCUS_MIN * 60); fs.cycles++; fs.phase = "break"; fs.remaining = BREAK_MIN * 60; toast("Break time — " + BREAK_MIN + " min"); }
+        else { fs.phase = "focus"; fs.remaining = FOCUS_MIN * 60; toast("Back to it — " + FOCUS_MIN + " min"); }
+      }
+      store.set("mmd.focusState", fs);
+      paintFocusMode(); paintProgress();
+    }, 1000);
+  }
+  function startSession(taskId) {
+    var t = taskId ? tasks.filter(function (x) { return x.id === taskId; })[0] : null;
+    fs = { taskId: taskId || null, phase: "focus", remaining: FOCUS_MIN * 60, running: true, cycles: 0 };
+    store.set("mmd.focusState", fs);
+    if (t && t.link) openLink(t.link);
+    openFocusMode(); runTimer(); paintTasks();
+  }
+  function toggleSession() { if (!fs) return; fs.running = !fs.running; store.set("mmd.focusState", fs); paintFocusMode(); }
+  function resetPhase() { if (!fs) return; fs.remaining = (fs.phase === "focus" ? FOCUS_MIN : BREAK_MIN) * 60; store.set("mmd.focusState", fs); paintFocusMode(); }
+  function skipPhase() {
+    if (!fs) return;
+    if (fs.phase === "focus") { var done = FOCUS_MIN * 60 - fs.remaining; if (done > 0) logFocus(done); fs.cycles++; fs.phase = "break"; fs.remaining = BREAK_MIN * 60; }
+    else { fs.phase = "focus"; fs.remaining = FOCUS_MIN * 60; }
+    store.set("mmd.focusState", fs); paintFocusMode(); paintProgress();
+  }
+  function endSession() {
+    if (fs && fs.phase === "focus") { var done = FOCUS_MIN * 60 - fs.remaining; if (done > 0) logFocus(done); }
+    fs = null; store.set("mmd.focusState", null);
+    if (fsTimer) { clearInterval(fsTimer); fsTimer = null; }
+    paintTasks(); paintProgress();
+    if (!$("focusMode").hidden) paintFocusMode(); // drop back to the setup state, stay on the screen
+  }
+  function openFocusMode() { $("focusMode").hidden = false; paintFocusMode(); }
+  function closeFocusMode() { $("focusMode").hidden = true; }
+  function setRing(frac) {
+    var circ = 2 * Math.PI * 46, p = $("fmProg");
+    if (p) { p.style.strokeDasharray = circ.toFixed(1); p.style.strokeDashoffset = (circ * (1 - Math.max(0, Math.min(1, frac)))).toFixed(1); }
+  }
+  function paintFocusMode() {
+    var idle = !fs;
+    $("fmEditor").hidden = !idle;
+    $("fmStartWrap").hidden = !idle;
+    $("fmRun").hidden = idle;
+    $("fmTask").hidden = idle;
+    if (idle) {
+      $("fmPhase").textContent = "Ready";
+      $("fmTime").textContent = fmt(FOCUS_MIN * 60);
+      setRing(1);
+      paintEditor();
+    } else {
+      $("fmPhase").textContent = fs.phase === "focus" ? "Focus" : "Break";
+      $("fmTime").textContent = fmt(fs.remaining);
+      var t = fsTask();
+      $("fmTask").textContent = t ? t.title : (fs.phase === "focus" ? "Deep work" : "Rest your eyes");
+      $("fmToggle").textContent = fs.running ? "Pause" : "Resume";
+      $("fmCycles").textContent = fs.cycles > 0 ? fs.cycles + " session" + (fs.cycles > 1 ? "s" : "") + " done today" : "";
+      var total = (fs.phase === "focus" ? FOCUS_MIN : BREAK_MIN) * 60;
+      setRing(fs.remaining / total);
+    }
+  }
+  function parseDue(text) {
+    var s = text.trim(), now = new Date(), due = null;
+    var tm = s.match(/\bat\s+(\d{1,2})(?::(\d{2}))?\s*(am|pm)?/i);
+    function clock(d) { if (tm) { var h = parseInt(tm[1], 10); if (/pm/i.test(tm[3] || "") && h < 12) h += 12; if (/am/i.test(tm[3] || "") && h === 12) h = 0; d.setHours(h, tm[2] ? parseInt(tm[2], 10) : 0, 0, 0); } else d.setHours(17, 0, 0, 0); }
+    var days = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"], wd = -1;
+    days.forEach(function (d, i) { if (new RegExp("\\b" + d + "\\b", "i").test(s)) wd = i; });
+    var inD = s.match(/\bin\s+(\d+)\s+days?\b/i);
+    if (/\btonight\b/i.test(s)) { due = new Date(now); due.setHours(20, 0, 0, 0); s = s.replace(/\btonight\b/i, ""); }
+    else if (/\btomorrow\b/i.test(s)) { due = new Date(now); due.setDate(due.getDate() + 1); clock(due); s = s.replace(/\btomorrow\b/i, ""); }
+    else if (/\btoday\b/i.test(s)) { due = new Date(now); clock(due); s = s.replace(/\btoday\b/i, ""); }
+    else if (inD) { due = new Date(now); due.setDate(due.getDate() + parseInt(inD[1], 10)); clock(due); s = s.replace(inD[0], ""); }
+    else if (wd >= 0) { due = new Date(now); var delta = (wd - now.getDay() + 7) % 7 || 7; due.setDate(due.getDate() + delta); clock(due); s = s.replace(new RegExp("\\b" + days[wd] + "\\b", "i"), ""); }
+    else if (tm) { due = new Date(now); clock(due); }
+    s = s.replace(/\bat\s+\d{1,2}(?::\d{2})?\s*(am|pm)?/i, "").replace(/\b(by|due|remind me to|remind me)\b/gi, "").replace(/\s+/g, " ").trim();
+    return { title: s || text.trim(), due: due ? due.toISOString() : null };
+  }
+  function saveTasks() { store.set("mmd.tasks", tasks); }
+  function dueText(iso) { var d = new Date(iso), n = daysUntil(d); var day = n < 0 ? "Overdue" : n === 0 ? "Today" : n === 1 ? "Tomorrow" : d.toLocaleDateString([], { month: "short", day: "numeric" }); return day + " · " + fmtTime(d); }
+  var doneDeadlines = store.get("mmd.doneDeadlines", {});
+  function calId(d) { return "cal-" + (d.id || d.t); }
+  function undoneCount() { return tasks.filter(function (t) { return !t.done; }).length + DUE.filter(function (d) { return !doneDeadlines[calId(d)]; }).length; }
+  function paintTasks() {
+    var combined = tasks.map(function (t) {
+      return { kind: "task", id: t.id, title: t.title, due: t.due ? new Date(t.due) : null, area: t.area, done: t.done, link: t.link };
+    }).concat(DUE.map(function (d) {
+      var id = calId(d);
+      return { kind: "cal", id: id, title: d.t, due: d.due instanceof Date ? d.due : new Date(d.due), area: d.area, exam: d.exam, done: !!doneDeadlines[id] };
+    }));
+    combined.sort(function (a, b) { if (a.done !== b.done) return a.done ? 1 : -1; if (a.due && b.due) return a.due - b.due; if (a.due) return -1; if (b.due) return 1; return 0; });
+    $("taskList").innerHTML = combined.length ? combined.map(function (t) {
+      var over = t.due && daysUntil(t.due) < 0 && !t.done, ar = AREA[t.area];
+      var isFocus = fs && fs.taskId === t.id;
+      var sub = (ar ? '<span class="adot" style="background:' + ar.c + '"></span>' + ar.name : '')
+        + (t.kind === "task" && t.due ? (ar ? ' · ' : '') + dueText(t.due.toISOString()) : '');
+      var right = "";
+      if (t.kind === "task") {
+        var playIcon = isFocus
+          ? '<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>'
+          : '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 5v14l12-7z"/></svg>';
+        right = '<button class="play' + (isFocus ? ' on' : '') + '" aria-label="Start focus">' + playIcon + '</button>'
+          + '<button class="del" aria-label="Delete"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 6h18M8 6V4h8v2m-9 0v14a1 1 0 001 1h8a1 1 0 001-1V6"/></svg></button>';
+      } else if (t.due) { var tg = dueTag(t.due); right = '<span class="tag ' + tg.cls + '">' + tg.txt + '</span>'; }
+      return '<div class="task' + (t.done ? ' done' : '') + (isFocus ? ' active' : '') + '" data-id="' + t.id + '" data-kind="' + t.kind + '"><button class="check' + (t.done ? ' done' : '') + '" aria-label="Toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg></button>'
+        + '<div class="task-main"><p class="task-title">' + t.title + (isFocus ? '<span class="focuspill">Focusing</span>' : '') + (t.kind === "cal" ? '<span class="calpill">cal</span>' : '') + '</p>'
+        + (sub ? '<p class="task-due' + (over ? ' over' : '') + '">' + sub + '</p>' : '') + '</div>' + right + '</div>';
+    }).join("") : '<p style="font-size:13px;color:var(--faint);text-align:center;padding:14px 0;margin:0">Nothing here yet. Add a task above.</p>';
+    Array.prototype.forEach.call($("taskList").children, function (el) {
+      var id = el.getAttribute("data-id"), kind = el.getAttribute("data-kind"); if (!id) return;
+      el.querySelector(".check").onclick = function () {
+        if (kind === "cal") { doneDeadlines[id] = !doneDeadlines[id]; store.set("mmd.doneDeadlines", doneDeadlines); }
+        else { tasks.forEach(function (t) { if (t.id === id) t.done = !t.done; }); if (fs && fs.taskId === id) endSession(); saveTasks(); }
+        paintTasks(); paintHead(); paintProgress();
+      };
+      var del = el.querySelector(".del"); if (del) del.onclick = function () { if (fs && fs.taskId === id) endSession(); tasks = tasks.filter(function (t) { return t.id !== id; }); saveTasks(); paintTasks(); paintHead(); paintProgress(); };
+      var play = el.querySelector(".play"); if (play) play.onclick = function () { if (fs && fs.taskId === id) openFocusMode(); else startSession(id); };
+    });
+    $("taskCount").textContent = undoneCount();
+    paintDoNext();
+  }
+  function addTask(fromText) {
+    var v = (fromText != null ? fromText : $("taskInput").value).trim(); if (!v) return;
+    var p = parseDue(v);
+    tasks.unshift({ id: "t" + Date.now(), title: p.title, due: p.due, area: $("areaSel").value, done: false });
+    $("taskInput").value = ""; saveTasks(); paintTasks(); paintHead(); paintProgress();
+  }
+  $("addBtn").onclick = function () { addTask(); };
+  $("taskInput").addEventListener("keydown", function (e) { if (e.key === "Enter") addTask(); });
+
+  var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  $("micBtn").onclick = function () {
+    if (!SR) { toast("Voice capture runs in the installed app"); return; }
+    try {
+      var rec = new SR(); rec.lang = "en-US"; rec.interimResults = false;
+      $("micBtn").classList.add("live"); toast("Listening…");
+      rec.onresult = function (ev) { var txt = ev.results[0][0].transcript; $("taskInput").value = txt; addTask(txt); };
+      rec.onerror = function () { toast("Voice needs mic access — works in the installed app"); };
+      rec.onend = function () { $("micBtn").classList.remove("live"); };
+      rec.start();
+    } catch (e) { $("micBtn").classList.remove("live"); toast("Voice capture runs in the installed app"); }
+  };
+  document.addEventListener("keydown", function (e) {
+    if ($("app").hidden) return;
+    var tag = (e.target.tagName || "").toLowerCase();
+    if (tag === "input" || tag === "select" || tag === "textarea") { if (e.key === "Escape") e.target.blur(); return; }
+    if (e.key === "n") { e.preventDefault(); $("tasksCard").scrollIntoView({ behavior: "smooth", block: "center" }); $("taskInput").focus(); }
+  });
+  $("startBtn").onclick = function () {
+    if (fs) { openFocusMode(); return; }
+    var undone = tasks.filter(function (t) { return !t.done; });
+    var t = undone.filter(function (x) { return /lab/i.test(x.title); })[0] || undone[0];
+    startSession(t ? t.id : null);
+  };
+  $("planBtn").onclick = function () { toast("Plan my day — wired to Claude in the live app"); };
+  $("focusOpenBtn").onclick = openFocusMode;
+  $("fmStart").onclick = function () { startSession(null); };
+  $("fmToggle").onclick = toggleSession;
+  $("fmSkip").onclick = skipPhase;
+  $("fmReset").onclick = resetPhase;
+  $("fmEnd").onclick = endSession;
+  $("fmExit").onclick = closeFocusMode;
+  Array.prototype.forEach.call(document.querySelectorAll(".fc-steppers button"), function (b) {
+    b.onclick = function () { var k = b.getAttribute("data-k"), d = +b.getAttribute("data-d") * 5; if (k === "focus") CFG.focus += d; else CFG.brk += d; applyCfg(); };
+  });
+  paintEditor();
+
+  /* intro → app with staggered build */
+  var opened = false;
+  function openApp() {
+    if (opened) return; opened = true;
+    $("snapshot").innerHTML = SNAPSHOT;
+    paintHead(); paintStrip(); paintTimeline(); paintDue(); paintNews(); paintTasks(); paintProgress(); paintWeatherCard(); paintUpNext(); paintCountdown(); initFortune(); if (fs) runTimer();
+    var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    $("intro").classList.add("leaving");
+    setTimeout(function () {
+      $("intro").hidden = true; $("app").hidden = false;
+      if (!reduce) {
+        var blocks = [$("app").querySelector(".snap"), $("strip")].concat(Array.prototype.slice.call($("app").querySelectorAll(".grid .card")));
+        blocks.forEach(function (el, i) { if (!el) return; el.style.animationDelay = (i * 0.07) + "s"; el.classList.add("reveal"); });
+      }
+      window.scrollTo(0, 0);
+    }, reduce ? 0 : 440);
+  }
+  $("enterBtn").onclick = openApp;
+
+  /* ---------- live data (falls back to sample on any failure) ---------- */
+  function setConnected(on, email) {
+    connected = on;
+    var b = $("connectBtn"); if (b) b.textContent = on ? "Disconnect Google" : "Connect Google";
+    var n = $("acctName"), d = $("acctDesc");
+    if (n) n.textContent = on ? (email || "Google Calendar") : "Google Calendar";
+    if (d) d.textContent = on ? "Connected — showing your live calendar" : "Not connected — using sample data";
+  }
+  $("connectBtn").onclick = function () {
+    if (connected) { fetch("/api/auth-logout", { method: "POST" }).then(function () { setConnected(false); location.reload(); }); }
+    else { location.href = "/api/auth-google"; }
+  };
+  (function () { var p = new URLSearchParams(location.search); var c = p.get("connect"); if (c === "ok") { toast("Google connected"); history.replaceState({}, "", "/"); } else if (c && c !== "ok") { toast("Couldn't connect — try again"); history.replaceState({}, "", "/"); } })();
+
+  function rebuildWeekState() { WEEK = buildWeek(); var e = DUE.filter(function (x) { return x.exam; }); examDays = e.length ? daysUntil(e[0].due) : null; }
+
+  async function hydrateCalendar() {
+    try {
+      var r = await fetch("/api/calendar");
+      if (r.status === 401) { setConnected(false); return; }
+      var d = await r.json();
+      if (!d.events) return;
+      setConnected(true, d.email);
+      EVENTS = d.events.map(function (e) { return { id: e.id, t: e.t, m: e.m, s: new Date(e.s), e: new Date(e.e), area: e.area, link: e.link }; });
+      DUE = d.assignments.map(function (a) { return { id: a.id, t: a.t, due: new Date(a.due), area: a.area, exam: a.exam }; });
+      rebuildWeekState(); paintIntro();
+      if (!$("app").hidden) { paintTimeline(); paintDue(); paintStrip(); paintHead(); paintUpNext(); paintCountdown(); hydrateSnapshot(); }
+      scheduleReminders();
+    } catch (e) {}
+  }
+  function hydrateWeather() {
+    function go(lat, lon) {
+      var q = (lat != null) ? "?lat=" + lat + "&lon=" + lon : "";
+      fetch("/api/weather" + q).then(function (r) { return r.json(); }).then(function (d) {
+        if (d && d.now != null) { WX.temp = d.now; if (d.condition) WX.cond = d.condition; WX.nudge = d.advice ? d.advice.replace(/\.$/, "").toLowerCase() : (d.condition || "").toLowerCase(); if (d.hours) WX.hours = d.hours; if (!$("app").hidden) { paintHead(); paintWeatherCard(); } }
+      }).catch(function () {});
+    }
+    if (navigator.geolocation) navigator.geolocation.getCurrentPosition(function (p) { go(p.coords.latitude, p.coords.longitude); }, function () { go(); }, { timeout: 6000 });
+    else go();
+  }
+  async function hydrateNews() {
+    try {
+      var r = await fetch("/api/news"); var d = await r.json();
+      if (d.items && d.items.length) { NEWS = d.items; cats = ["All"]; NEWS.forEach(function (n) { if (cats.indexOf(n.c) < 0) cats.push(n.c); }); if (!$("app").hidden) paintNews(); }
+    } catch (e) {}
+  }
+  async function hydrateSnapshot() {
+    try {
+      var body = {
+        events: EVENTS.map(function (e) { return { t: e.t, s: e.s instanceof Date ? e.s.toISOString() : e.s, m: e.m }; }),
+        assignments: DUE.map(function (a) { return { t: a.t, due: a.due instanceof Date ? a.due.toISOString() : a.due, exam: a.exam }; }),
+        tasks: tasks
+      };
+      var r = await fetch("/api/snapshot", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+      var d = await r.json();
+      if (d.text) { SNAPSHOT = d.text; var el = $("snapshot"); if (el) el.textContent = d.text; var isn = $("introSnapshot"); if (isn) isn.textContent = d.text; }
+    } catch (e) {}
+  }
+  var _openApp = openApp;
+  openApp = function () { _openApp(); hydrateSnapshot(); };
+  $("enterBtn").onclick = openApp;
+
+  /* ---------- snapshot toggle (dashboard) ---------- */
+  var snapOpen = false;
+  function toggleSnap(force) {
+    snapOpen = force != null ? force : !snapOpen;
+    var c = $("snapCard"); if (!c) return;
+    c.hidden = !snapOpen;
+    if (snapOpen) { c.classList.remove("reveal"); void c.offsetWidth; c.classList.add("reveal"); c.scrollIntoView({ behavior: "smooth", block: "nearest" }); }
+    $("snapBtn").classList.toggle("btn-accent", snapOpen);
+  }
+  $("snapBtn").onclick = function () { toggleSnap(); };
+
+  /* ---------- settings sheet ---------- */
+  function openSettings() { $("settings").hidden = false; }
+  function closeSettings() { $("settings").hidden = true; }
+  $("settingsBtn").onclick = openSettings;
+  $("settingsClose").onclick = closeSettings;
+  $("settingsScrim").onclick = closeSettings;
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !$("settings").hidden) closeSettings(); });
+
+  /* theme segmented control (mirrors the header toggle) */
+  function paintThemeSeg() {
+    var cur = store.get("mmd.theme", null) || "auto";
+    $("themeSeg").innerHTML = [["auto", "Auto"], ["light", "Light"], ["dark", "Dark"]].map(function (o) {
+      return '<button data-t="' + o[0] + '" class="' + (cur === o[0] ? "on" : "") + '">' + o[1] + '</button>';
+    }).join("");
+    Array.prototype.forEach.call($("themeSeg").children, function (b) {
+      b.onclick = function () {
+        var t = b.getAttribute("data-t");
+        if (t === "auto") { document.documentElement.removeAttribute("data-theme"); store.set("mmd.theme", null); }
+        else { document.documentElement.setAttribute("data-theme", t); store.set("mmd.theme", t); }
+        paintToggle(); paintThemeSeg();
+      };
+    });
+  }
+  var _paintToggle = paintToggle;
+  paintToggle = function () { _paintToggle(); if ($("themeSeg")) paintThemeSeg(); };
+  paintThemeSeg();
+
+  /* ---------- notifications & reminders ---------- */
+  var notif = store.get("mmd.notif", { on: false, deadline: true, lead: 10 });
+  var reminderTimers = [];
+  function canNotify() { return "Notification" in window; }
+  function clearReminders() { if (!reminderTimers) return; reminderTimers.forEach(clearTimeout); reminderTimers = []; }
+  function fire(title, body) {
+    try { if (notif.on && canNotify() && Notification.permission === "granted") new Notification(title, { body: body }); else toast(title + " — " + body); }
+    catch (e) { toast(title); }
+  }
+  function scheduleReminders() {
+    clearReminders();
+    if (!notif || !notif.on) return;
+    var now = Date.now();
+    if (notif.lead > 0) EVENTS.forEach(function (e) {
+      var start = (e.s instanceof Date ? e.s : new Date(e.s)).getTime();
+      var at = start - notif.lead * 60000;
+      if (at > now && at - now < 86400000) reminderTimers.push(setTimeout(function () { fire(e.t + " soon", "Starts in " + notif.lead + " min" + (e.m ? " · " + e.m : "")); }, at - now));
+    });
+    if (notif.deadline) DUE.forEach(function (d) {
+      var due = (d.due instanceof Date ? d.due : new Date(d.due)).getTime();
+      var at = due - 3 * 3600000; // 3h ahead
+      if (at > now && at - now < 86400000) reminderTimers.push(setTimeout(function () { fire((d.exam ? "Exam soon: " : "Due soon: ") + d.t, "Open Dashy to get ahead of it."); }, at - now));
+    });
+  }
+  function paintSwitches() {
+    $("swNotif").classList.toggle("on", !!notif.on);
+    $("swDeadline").classList.toggle("on", !!notif.deadline);
+    $("leadSeg").innerHTML = [0, 5, 10, 30].map(function (m) {
+      return '<button data-m="' + m + '" class="' + (notif.lead === m ? "on" : "") + '">' + (m === 0 ? "Off" : m + "m") + '</button>';
+    }).join("");
+    Array.prototype.forEach.call($("leadSeg").children, function (b) {
+      b.onclick = function () { notif.lead = +b.getAttribute("data-m"); store.set("mmd.notif", notif); paintSwitches(); scheduleReminders(); };
+    });
+  }
+  $("swNotif").onclick = function () {
+    if (!notif.on) {
+      if (!canNotify()) { toast("Notifications work once Dashy is installed to your home screen"); return; }
+      Notification.requestPermission().then(function (p) {
+        notif.on = (p === "granted"); store.set("mmd.notif", notif); paintSwitches();
+        toast(notif.on ? "Notifications on" : "Allow notifications in your browser, then try again");
+        if (notif.on) scheduleReminders();
+      });
+    } else { notif.on = false; store.set("mmd.notif", notif); paintSwitches(); clearReminders(); toast("Notifications off"); }
+  };
+  $("swDeadline").onclick = function () { notif.deadline = !notif.deadline; store.set("mmd.notif", notif); paintSwitches(); scheduleReminders(); };
+  $("testNotif").onclick = function () {
+    if (!notif.on && canNotify() && Notification.permission !== "granted") { toast("Turn notifications on first"); return; }
+    fire("Dashy", "This is how your reminders will look.");
+  };
+  paintSwitches();
+
+  /* ---------- quick add to calendar (type or voice) ---------- */
+  function addEvent(fromText) {
+    var v = (fromText != null ? fromText : $("calInput").value).trim(); if (!v) return;
+    var p = parseDue(v);
+    var start = p.due ? new Date(p.due) : atToday(new Date().getHours() + 1, 0);
+    var end = new Date(start.getTime() + 60 * 60000);
+    var area = /180dc/i.test(v) ? "180dc" : /caso/i.test(v) ? "caso" : /\bra\b|floor/i.test(v) ? "ra" : /research|anukriti/i.test(v) ? "research" : "class";
+    EVENTS.push({ t: p.title, m: start.toLocaleDateString([], { weekday: "short" }) + " · added just now", s: start, e: end, area: area, link: null });
+    EVENTS.sort(function (a, b) { return a.s - b.s; });
+    $("calInput").value = ""; rebuildWeekState(); paintTimeline(); paintStrip(); paintIntro(); scheduleReminders();
+    toast(connected ? "Adding to Google Calendar…" : "Added to today — connect Google to sync it");
+    /* live app: POST /api/calendar-create { title, start, end } with calendar.events scope */
+  }
+  $("calAddBtn").onclick = function () { addEvent(); };
+  $("calInput").addEventListener("keydown", function (e) { if (e.key === "Enter") addEvent(); });
+  $("calMic").onclick = function () {
+    if (!SR) { toast("Voice capture runs in the installed app"); return; }
+    try {
+      var rec = new SR(); rec.lang = "en-US"; rec.interimResults = false;
+      $("calMic").classList.add("live"); toast("Listening…");
+      rec.onresult = function (ev) { addEvent(ev.results[0][0].transcript); };
+      rec.onerror = function () { toast("Voice needs mic access — works in the installed app"); };
+      rec.onend = function () { $("calMic").classList.remove("live"); };
+      rec.start();
+    } catch (e) { $("calMic").classList.remove("live"); toast("Voice capture runs in the installed app"); }
+  };
+
+  /* ---------- install / PWA ---------- */
+  var deferredPrompt = null;
+  window.addEventListener("beforeinstallprompt", function (e) { e.preventDefault(); deferredPrompt = e; });
+  $("installBtn").onclick = function () {
+    if (deferredPrompt) { deferredPrompt.prompt(); deferredPrompt = null; }
+    else { toast("iPhone: Share → Add to Home Screen"); }
+  };
+  if ("serviceWorker" in navigator) { try { navigator.serviceWorker.register("/sw.js").catch(function () {}); } catch (e) {} }
+
+  /* ---------- weather / focus-mini / notes cards ---------- */
+  function paintWeatherCard() {
+    var t = $("wxTemp"); if (!t) return;
+    t.textContent = WX.temp + "°";
+    $("wxCond").textContent = WX.cond || "";
+    $("wxSub").textContent = (WX.loc || "") + (WX.nudge ? " · " + WX.nudge : "");
+    $("wxHours").innerHTML = (WX.hours || []).map(function (h) { return '<div class="wx-h"><p class="t">' + h[0] + '</p><p class="d">' + h[1] + '°</p></div>'; }).join("");
+  }
+  function paintFocusMini() { var el = $("fmFocused"); if (el) el.textContent = fmtFocus(focusLog().seconds); }
+  function loadNotes() { var n = $("notes"); if (n) n.value = store.get("mmd.notes", ""); }
+  (function () { var n = $("notes"); if (n) n.addEventListener("input", function () { store.set("mmd.notes", n.value); }); })();
+  if ($("fmQuick")) $("fmQuick").onclick = openFocusMode;
+
+  /* ---------- fortune (omikuji) ---------- */
+  var FORTUNES = [
+    { lv: "大吉", en: "Great blessing", msgs: ["Everything's tilted your way — start the hard thing first.", "A rare clear run. Protect your morning and the day falls into place.", "Momentum is yours. Ship the thing you've been circling."] },
+    { lv: "中吉", en: "Good blessing", msgs: ["Steady wins today. One deadline down early buys you the evening.", "Good energy for people — that sync will go well.", "Two short focus blocks beat one long grind."] },
+    { lv: "吉", en: "Blessing", msgs: ["A fair wind. Pick one priority and let the rest wait.", "Good day to tidy loose ends before they pile up.", "Say yes to the easy win, no to the extra meeting."] },
+    { lv: "小吉", en: "Small blessing", msgs: ["Nothing flashy, but things hold. Keep the list short.", "Knock out the 15-minute tasks and the weight lifts.", "A quiet, workable day. Don't over-plan it."] },
+    { lv: "末吉", en: "Future blessing", msgs: ["Slow start, better finish — be patient through the morning.", "The payoff is later this week. Plant the work now.", "Trust the prep; Friday's exam rewards today's hour."] }
+  ];
+  function drawFortune(seed) {
+    var pool = []; FORTUNES.forEach(function (f, i) { var w = i === 0 ? 2 : 3; for (var k = 0; k < w; k++) pool.push(i); });
+    var r = (seed == null ? Math.random() : (seed % 997) / 997);
+    var f = FORTUNES[pool[Math.floor(r * pool.length) % pool.length]];
+    var mr = (seed == null ? Math.random() : ((Math.floor(seed / 7)) % 991) / 991);
+    return { lv: f.lv, en: f.en, msg: f.msgs[Math.floor(mr * f.msgs.length) % f.msgs.length] };
+  }
+  function paintFortune(fo) {
+    var el = $("omikuji"); if (!el) return;
+    el.innerHTML = '<div class="omi-level">' + fo.lv + '</div><div class="omi-en">' + fo.en + '</div><p class="omi-msg">' + fo.msg + '</p><button class="btn omi-draw" id="omiDraw">Draw again</button>';
+    $("omiDraw").onclick = function () { var nf = drawFortune(null); store.set("mmd.fortune", { date: todayKey(), f: nf }); paintFortune(nf); };
+  }
+  function initFortune() {
+    var saved = store.get("mmd.fortune", null);
+    var fo = (saved && saved.date === todayKey()) ? saved.f : null;
+    if (!fo) { fo = drawFortune(parseInt(todayKey().replace(/-/g, ""), 10)); store.set("mmd.fortune", { date: todayKey(), f: fo }); }
+    paintFortune(fo);
+  }
+
+  /* ---------- up next (live) ---------- */
+  function dayProgress() { var now = new Date(), s = atToday(8, 0), e = atToday(22, 0); return Math.max(0, Math.min(1, (now - s) / (e - s))); }
+  function paintUpNext() {
+    var el = $("upnext"); if (!el) return;
+    var now = new Date();
+    var evs = EVENTS.map(function (e) { return { t: e.t, m: e.m, s: e.s instanceof Date ? e.s : new Date(e.s), e: e.e instanceof Date ? e.e : new Date(e.e) }; });
+    var live = evs.filter(function (e) { return now >= e.s && now <= e.e; })[0];
+    var up = evs.filter(function (e) { return e.s > now; }).sort(function (a, b) { return a.s - b.s; })[0];
+    var pct = Math.round(dayProgress() * 100), head;
+    if (live) head = '<p class="un-k">Happening now</p><p class="un-t">' + live.t + '</p><p class="un-m">' + (live.m || "") + '</p>';
+    else if (up) { var mins = Math.round((up.s - now) / 60000); var txt = mins < 60 ? "in " + mins + " min" : "in " + Math.floor(mins / 60) + "h " + (mins % 60) + "m"; head = '<p class="un-k">Up next · ' + txt + '</p><p class="un-t">' + up.t + '</p><p class="un-m">' + fmtTime(up.s) + (up.m ? " · " + up.m : "") + '</p>'; }
+    else head = '<p class="un-k">All clear</p><p class="un-t">Nothing left on the calendar</p><p class="un-m">The evening is yours.</p>';
+    el.innerHTML = head + '<div class="un-bar"><div style="width:' + pct + '%"></div></div><p class="un-day">' + pct + '% through your day</p>';
+  }
+
+  /* ---------- countdown: next 3 assignments ---------- */
+  function paintCountdown() {
+    var el = $("countList"); if (!el) return;
+    var items = DUE.map(function (d) { return { t: d.t, due: d.due instanceof Date ? d.due : new Date(d.due), area: d.area }; })
+      .filter(function (d) { return daysUntil(d.due) >= 0; })
+      .sort(function (a, b) { return a.due - b.due; }).slice(0, 3);
+    el.innerHTML = items.length ? items.map(function (it) {
+      var d = daysUntil(it.due), big = d <= 0 ? "Today" : d + "d", ar = AREA[it.area];
+      return '<div class="cd-row"><span class="cd-n">' + big + '</span><div><p class="cd-l">' + it.t + '</p><p class="cd-s">' + (ar ? ar.name + ' · ' : '') + it.due.toLocaleDateString([], { weekday: "short", month: "short", day: "numeric" }) + '</p></div></div>';
+    }).join("") : '<p style="font-size:13px;color:var(--faint);margin:0">No deadlines coming up.</p>';
+  }
+
+  /* ---------- smart "do next" ---------- */
+  function paintDoNext() {
+    var el = $("doNext"); if (!el) return;
+    var now = new Date();
+    var evs = EVENTS.map(function (e) { return { t: e.t, s: e.s instanceof Date ? e.s : new Date(e.s), e: e.e instanceof Date ? e.e : new Date(e.e), m: e.m, link: e.link }; });
+    var live = evs.filter(function (e) { return now >= e.s && now <= e.e; })[0];
+    var soon = evs.filter(function (e) { return e.s > now && (e.s - now) < 2700000; }).sort(function (a, b) { return a.s - b.s; })[0];
+    var todos = tasks.filter(function (t) { return !t.done; }).map(function (t) { return { id: t.id, title: t.title, due: t.due ? new Date(t.due) : null, kind: "task", link: t.link }; })
+      .concat(DUE.filter(function (d) { return !doneDeadlines[calId(d)]; }).map(function (d) { return { id: calId(d), title: d.t, due: d.due instanceof Date ? d.due : new Date(d.due), kind: "cal" }; }));
+    var urgent = todos.filter(function (t) { return t.due && daysUntil(t.due) <= 0; }).sort(function (a, b) { return a.due - b.due; })[0];
+    var pick, sub, action = null;
+    if (live) { pick = live; sub = "Happening now" + (live.m ? " · " + live.m : ""); if (live.link) action = { type: "link", url: live.link }; }
+    else if (urgent) { pick = urgent; var n = daysUntil(urgent.due); sub = n < 0 ? "Overdue" : "Due today"; if (urgent.kind === "task") action = { type: "focus", id: urgent.id }; }
+    else if (soon) { pick = soon; sub = "Starts in " + Math.round((soon.s - now) / 60000) + " min"; if (soon.link) action = { type: "link", url: soon.link }; }
+    else { var next = todos.filter(function (t) { return t.due; }).sort(function (a, b) { return a.due - b.due; })[0] || todos[0]; if (next) { pick = next; sub = next.due ? dueText(next.due.toISOString()) : "On your list"; if (next.kind === "task") action = { type: "focus", id: next.id }; } }
+    if (!pick) { el.innerHTML = '<p class="dn-title">You\'re all caught up.</p><p class="dn-sub">Nothing urgent right now.</p>'; return; }
+    el.innerHTML = '<p class="dn-title">' + pick.title + '</p><p class="dn-sub">' + sub + '</p>'
+      + (action ? '<button class="btn btn-accent dn-action" type="button">' + (action.type === "focus" ? "▶ Start focus" : "Open →") + '</button>' : '');
+    var btn = el.querySelector(".dn-action");
+    if (btn) btn.onclick = function () { if (action.type === "link") window.open(action.url, "_blank", "noopener"); else startSession(action.id); };
+  }
+
+  /* ---------- customize: accent / density / cards ---------- */
+  var ACCENTS = { amber: "224,149,74", shu: "224,83,58", ai: "96,130,196", moss: "124,156,98", sora: "120,172,214", sumi: "200,200,206" };
+  var ACCENT_JP = { amber: "山吹", shu: "朱", ai: "藍", moss: "苔", sora: "空", sumi: "墨" };
+  function applyAccent(key) {
+    var rgb = ACCENTS[key] || ACCENTS.amber, r = document.documentElement.style;
+    r.setProperty("--accent", "rgb(" + rgb + ")");
+    r.setProperty("--accent-bg", "rgba(" + rgb + ",0.16)");
+    r.setProperty("--a1", "rgb(" + rgb + ")");
+  }
+  function paintSwatches() {
+    var cur = store.get("mmd.accent", "amber") || "amber";
+    $("swatches").innerHTML = Object.keys(ACCENTS).map(function (k) {
+      return '<button class="sw' + (k === cur ? " on" : "") + '" data-a="' + k + '" title="' + ACCENT_JP[k] + '" aria-label="' + k + '" style="background:rgb(' + ACCENTS[k] + ')"></button>';
+    }).join("");
+    Array.prototype.forEach.call($("swatches").children, function (b) {
+      b.onclick = function () { var k = b.getAttribute("data-a"); store.set("mmd.accent", k); applyAccent(k); paintSwatches(); };
+    });
+  }
+  function applyDensity(d) { if (d === "compact") document.documentElement.setAttribute("data-density", "compact"); else document.documentElement.removeAttribute("data-density"); }
+  function paintDensitySeg() {
+    var cur = store.get("mmd.density", "comfortable") || "comfortable";
+    $("densitySeg").innerHTML = [["comfortable", "Comfortable"], ["compact", "Compact"]].map(function (o) {
+      return '<button data-d="' + o[0] + '" class="' + (cur === o[0] ? "on" : "") + '">' + o[1] + '</button>';
+    }).join("");
+    Array.prototype.forEach.call($("densitySeg").children, function (b) {
+      b.onclick = function () { var d = b.getAttribute("data-d"); store.set("mmd.density", d); applyDensity(d); paintDensitySeg(); };
+    });
+  }
+  var CARD_DEFS = [["weather", "Weather", "wxCard"], ["focus", "Focus", "focusCard"], ["fun", "Fortune", "funCard"], ["launch", "Launchpad", "launchCard"], ["world", "World", "worldCard"]];
+  var cardsPref = store.get("mmd.cards", {});
+  function applyCards() { CARD_DEFS.forEach(function (d) { var el = $(d[2]); if (el) el.hidden = (cardsPref[d[0]] === false); }); }
+  function paintCardToggles() {
+    $("cardToggles").innerHTML = CARD_DEFS.map(function (d) {
+      var on = cardsPref[d[0]] !== false;
+      return '<div class="set-row"><div><p class="set-name">' + d[1] + '</p></div><button class="switch' + (on ? " on" : "") + '" data-c="' + d[0] + '" role="switch"></button></div>';
+    }).join("");
+    Array.prototype.forEach.call($("cardToggles").children, function (row) {
+      var b = row.querySelector(".switch"), k = b.getAttribute("data-c");
+      b.onclick = function () { cardsPref[k] = (cardsPref[k] === false); store.set("mmd.cards", cardsPref); applyCards(); paintCardToggles(); };
+    });
+  }
+  function applyJp(on) { if (on) document.documentElement.removeAttribute("data-jp"); else document.documentElement.setAttribute("data-jp", "off"); }
+  function paintJp() { var on = store.get("mmd.jp", true) !== false; $("swJp").classList.toggle("on", on); }
+  $("swJp").onclick = function () { var on = store.get("mmd.jp", true) !== false; store.set("mmd.jp", !on); applyJp(!on); paintJp(); };
+
+
+  /* seasonal word (kigo) + vertical date */
+  (function () {
+    var now = new Date(), m = now.getMonth(), day = now.getDate();
+    var kigo = ["新春", "晩冬", "早春", "春", "晩春", "初夏", "夏", "盛夏", "初秋", "秋", "晩秋", "初冬"][m];
+    var s = $("season"); if (s) s.textContent = kigo;
+    function kNum(n) { var d = ["", "一", "二", "三", "四", "五", "六", "七", "八", "九"]; if (n < 10) return d[n]; if (n < 20) return "十" + (n % 10 ? d[n % 10] : ""); var t = Math.floor(n / 10); return d[t] + "十" + (n % 10 ? d[n % 10] : ""); }
+    var td = $("tateDate"); if (td) td.textContent = kNum(m + 1) + "月" + kNum(day) + "日";
+  })();
+
+  applyAccent(store.get("mmd.accent", "amber") || "amber"); paintSwatches();
+  applyDensity(store.get("mmd.density", "comfortable")); paintDensitySeg();
+  applyJp(store.get("mmd.jp", true) !== false); paintJp();
+  applyCards(); paintCardToggles();
+
+  /* ---------- drag to reorder ---------- */
+  var DRAG_ZONES = ["zoneToday", "zoneAct", "ambient"];
+  var dragEl = null;
+  function zoneCards(c) { return [].slice.call(c.children).filter(function (x) { return x.classList && x.classList.contains("card"); }); }
+  function saveLayout() { var layout = {}; DRAG_ZONES.forEach(function (z) { var c = $(z); if (c) layout[z] = zoneCards(c).map(function (x) { return x.id; }); }); store.set("mmd.layout", layout); }
+  function applyLayout() { var layout = store.get("mmd.layout", null); if (!layout) return; DRAG_ZONES.forEach(function (z) { var c = $(z), ids = layout[z]; if (!c || !ids) return; ids.forEach(function (id) { var el = $(id); if (el) c.appendChild(el); }); }); }
+  function insertTarget(c, x, y, horizontal) {
+    var best = null, bestOff = -Infinity;
+    zoneCards(c).forEach(function (child) {
+      if (child === dragEl) return;
+      var b = child.getBoundingClientRect(), off = horizontal ? (x - b.left - b.width / 2) : (y - b.top - b.height / 2);
+      if (off < 0 && off > bestOff) { bestOff = off; best = child; }
+    });
+    return best;
+  }
+  function initDrag() {
+    DRAG_ZONES.forEach(function (z) {
+      var c = $(z); if (!c) return;
+      var horizontal = (z === "ambient");
+      zoneCards(c).forEach(function (card) {
+        if (card.querySelector(".grip")) return;
+        var g = document.createElement("button");
+        g.className = "grip"; g.type = "button"; g.setAttribute("draggable", "true"); g.setAttribute("aria-label", "Drag to reorder"); g.textContent = "⠿";
+        g.addEventListener("dragstart", function (e) { dragEl = card; card.classList.add("dragging"); e.dataTransfer.effectAllowed = "move"; try { e.dataTransfer.setData("text/plain", card.id); } catch (_) {} });
+        g.addEventListener("dragend", function () { if (dragEl) dragEl.classList.remove("dragging"); dragEl = null; saveLayout(); });
+        card.appendChild(g);
+      });
+      c.addEventListener("dragover", function (e) {
+        if (!dragEl) return; e.preventDefault(); e.dataTransfer.dropEffect = "move";
+        var target = insertTarget(c, e.clientX, e.clientY, horizontal);
+        if (target == null) c.appendChild(dragEl); else c.insertBefore(dragEl, target);
+      });
+      c.addEventListener("drop", function (e) { e.preventDefault(); });
+    });
+  }
+  applyLayout(); initDrag();
+
+  paintIntro();
+  hydrateCalendar(); hydrateWeather(); hydrateNews();
+  scheduleReminders();
+  setInterval(function () { if (!$("intro").hidden && !opened) tickClock(); }, 1000);
+  setInterval(function () { if (!$("app").hidden) { paintHead(); paintTimeline(); paintUpNext(); } }, 30000);
+})();
+</script>
